@@ -27,7 +27,9 @@ Widget button(String text) {
   );
 }
 
-Widget longButton(String text) {
+Widget longButton(
+  String text,
+) {
   return Container(
     height: 55,
     decoration: BoxDecoration(
@@ -38,6 +40,35 @@ Widget longButton(String text) {
         colors: [
           Color(0xff4C2963),
           Color(0xffAA277B),
+        ],
+      ),
+    ),
+    child: Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            text,
+            style: const TextStyle(
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget greyLongButton(String text) {
+  return Container(
+    height: 55,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(15),
+      gradient: const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color.fromARGB(255, 76, 68, 81),
+          Color.fromARGB(255, 142, 135, 140),
         ],
       ),
     ),

@@ -1,5 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+import 'package:build/controller/constant.dart';
+import 'package:build/controller/erroralert.dart';
+import 'package:build/main.dart';
+import 'package:build/model/noti.dart';
 import 'package:build/view/FirstSevice/first_service.dart';
+import 'package:build/view/Language/language.dart';
+import 'package:build/view/mainpage.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class Notifications extends StatefulWidget {
   const Notifications({super.key});
@@ -9,38 +19,108 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsState extends State<Notifications> {
+  bool isLoading = true;
+  List<Noti> notificatiosList = [];
+  @override
+  void initState() {
+    getnotifications();
+    super.initState();
+  }
+
+  getnotifications() async {
+    var headers2 = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${currentUser.token}'
+    };
+    try {
+      var request = await http.get(Uri.parse('$baseUrl/notifications'),
+          headers: headers2);
+
+      if (request.statusCode == 200) {
+        List data = json.decode(request.body);
+        for (var element in data) {
+          notificatiosList.add(Noti(
+              id: element["id"].toString(),
+              titleAr: element["titleAr"],
+              titleEn: element["titleEn"],
+              messageAr: element["messageAr"],
+              messageEn: element["messageEn"],
+              createdAt: element["createdAt"],
+              createdAtAr: element["createdAtAr"]));
+        }
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const MainPage()),
+            (route) => false);
+        erroralert(context, "حدث خطأ يرجى إعادة المحاولة");
+      }
+    } catch (e) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const MainPage()),
+          (route) => false);
+      erroralert(context, "حدث خطأ يرجى إعادة المحاولة");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: language == 0 ? TextDirection.rtl : TextDirection.ltr,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: ListView(
-            padding: EdgeInsets.zero,
+          child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 55,
-                ),
+                padding: const EdgeInsets.only(top: 55, bottom: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "تنبيهاتي",
+                      translateText["Notifications"]![language],
                       style: textStyle2(),
                     ),
-                    const Icon(
-                      Icons.arrow_back_ios_new,
+                    Icon(
+                      language == 0
+                          ? Icons.arrow_back_ios_new
+                          : Icons.arrow_forward_ios,
                       size: 35,
                     )
                   ],
                 ),
               ),
-              noteBox("مراجعه مخططات الإنشائية",
-                  "جاري تنفيذ الطلب وباقي 8 ايام عمل ", "منذ يوم"),
-              noteBox("ابحث عن مقاول",
-                  "جاري تنسيق اجتماع مع المقاول وفريق أبني ", "منذ 3  ساعات"),
+              isLoading
+                  ? Center(
+                      child: CircularProgressIndicator(
+                      color: maincolor,
+                    ))
+                  : Expanded(
+                      child: ListView(
+                        padding: EdgeInsets.zero,
+                        children: [
+                          for (int i = 0; i < notificatiosList.length; i++)
+                            noteBox(
+                                language == 0
+                                    ? notificatiosList[i].titleAr
+                                    : notificatiosList[i].titleEn,
+                                language == 0
+                                    ? notificatiosList[i].messageAr
+                                    : notificatiosList[i].messageEn,
+                                language == 0
+                                    ? notificatiosList[i].createdAtAr
+                                    : notificatiosList[i].createdAt),
+                        ],
+                      ),
+                    ),
+              Container(
+                height: 90,
+              )
             ],
           ),
         ),
@@ -52,7 +132,6 @@ class _NotificationsState extends State<Notifications> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Container(
-        height: 130,
         decoration: BoxDecoration(
             color: const Color(0xffAA277B),
             borderRadius: BorderRadius.circular(15)),
@@ -64,6 +143,9 @@ class _NotificationsState extends State<Notifications> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Container(
+                height: 10,
+              ),
               Text(
                 title,
                 style: const TextStyle(
@@ -76,12 +158,17 @@ class _NotificationsState extends State<Notifications> {
                 style: const TextStyle(color: Colors.white, fontSize: 15),
               ),
               Align(
-                  alignment: Alignment.bottomLeft,
+                  alignment: language == 0
+                      ? Alignment.bottomLeft
+                      : Alignment.bottomRight,
                   child: Text(
                     time,
                     style: TextStyle(
                         color: Colors.white.withOpacity(.8), fontSize: 16),
-                  ))
+                  )),
+              Container(
+                height: 10,
+              )
             ],
           ),
         ),

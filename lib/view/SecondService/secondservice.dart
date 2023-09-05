@@ -1,16 +1,16 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, avoid_function_literals_in_foreach_calls
 
-import 'dart:convert';
-
+import 'package:build/controller/no_imternet.dart';
 import 'package:build/main.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_fatoorah/my_fatoorah.dart';
 
 import '../../controller/button.dart';
 import '../../controller/constant.dart';
 import '../../controller/snackbar.dart';
-import '../../success.dart';
+import '../../controller/success.dart';
 import '../FirstSevice/first_service.dart';
 import '../Language/language.dart';
 
@@ -23,11 +23,10 @@ class SecondService extends StatefulWidget {
 
 class _SecondServiceState extends State<SecondService> {
   final TextEditingController _numberOfFloor = TextEditingController();
-
+  int currentPrice = 500;
   final items = types;
   String dropDownValue = types[0];
   List<String> filesPath = [];
-  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -266,7 +265,7 @@ class _SecondServiceState extends State<SecondService> {
                                             textInputAction:
                                                 TextInputAction.done,
                                             keyboardType: const TextInputType
-                                                    .numberWithOptions(
+                                                .numberWithOptions(
                                                 signed: true, decimal: false),
                                             decoration: const InputDecoration(
                                                 border: InputBorder.none),
@@ -385,8 +384,8 @@ class _SecondServiceState extends State<SecondService> {
                         ),
                         Text(
                           language == 0
-                              ? "سيتم دفع 500 درهم رسوم"
-                              : "A fee of 500 dirhams will be paid.",
+                              ? "سيتم دفع ${currentPrice} درهم رسوم"
+                              : "A fee of $currentPrice dirhams will be paid.",
                           style: normalTextStyle(),
                         ),
                         Container(
@@ -394,64 +393,100 @@ class _SecondServiceState extends State<SecondService> {
                         ),
                         InkWell(
                             onTap: () async {
-                              setState(() {
-                                isLoading = true;
-                              });
-
                               String requestType =
                                   (types.indexOf(dropDownValue) + 1).toString();
-                              String floorsCount = _numberOfFloor.text;
+                              int floorsCount = 2;
                               Map<String, String> headers2 = {
                                 'Accept': 'application/json',
                                 'Content-Type': 'application/json',
                                 'Authorization': 'Bearer ${currentUser.token}'
                               };
+                              bool isInteger = false;
 
                               try {
-                                var request = http.MultipartRequest('POST',
-                                    Uri.parse('$baseUrl/find-constructor'));
-                                request.fields.addAll({
-                                  'requestType': requestType,
-                                  'floorsCount': floorsCount
-                                });
-                                request.files.add(
-                                    await http.MultipartFile.fromPath(
-                                        'files[]', filesPath[0]));
+                                floorsCount =
+                                    int.parse(_numberOfFloor.text.trim());
+                                isInteger = true;
+                              } catch (e) {
+                                isInteger = false;
+                              }
 
-                                request.headers.addAll(headers2);
-
-                                http.StreamedResponse response =
-                                    await request.send();
-                                Map data = json.decode(
-                                    await response.stream.bytesToString());
-                                if (response.statusCode == 201) {
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SuccessPage()),
-                                      (route) => false);
-                                } else {
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                  snackbar(context, data["message"]);
-                                }
-                              } catch (_) {
-                                setState(() {
-                                  isLoading = false;
-                                });
+                              if (filesPath.isEmpty) {
+                                snackbar(
+                                    context, "يجب رفع المخططات الخاصة بمشروعك");
+                              } else if (!isInteger) {
                                 snackbar(context,
-                                    translateText["checkInternet"]![language]);
+                                    "يجب إدخال عدد الطوابق بالشكل الصحيح");
+                              } else {
+                                var response = await MyFatoorah.startPayment(
+                                  afterPaymentBehaviour: AfterPaymentBehaviour
+                                      .AfterCallbackExecution,
+                                  context: context,
+                                  request: MyfatoorahRequest.test(
+                                    currencyIso: Country.UAE,
+                                    successUrl:
+                                        'https://rosa.ae/payment/myfatoorah_api/success',
+                                    errorUrl:
+                                        'https://rosa.ae/payment/myfatoorah_api/failed',
+                                    invoiceAmount: 100,
+                                    language: language == 0
+                                        ? ApiLanguage.Arabic
+                                        : ApiLanguage.English,
+                                    token: //fatoorahKey!,
+                                        "rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL",
+                                  ),
+                                );
+                                if (response.isSuccess) {
+                                  try {
+                                    var request = http.MultipartRequest(
+                                        'POST',
+                                        Uri.parse(
+                                            '$baseUrl/review-construction-plans'));
+                                    request.fields.addAll({
+                                      'requestType': requestType,
+                                      'floorsCount': floorsCount.toString()
+                                    });
+                                    filesPath.forEach((element) async {
+                                      request.files.add(
+                                          await http.MultipartFile.fromPath(
+                                              'files[]', element));
+                                    });
+
+                                    request.headers.addAll(headers2);
+
+                                    http.StreamedResponse response =
+                                        await request.send();
+
+                                    if (response.statusCode == 201) {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => SuccessPage(
+                                                  text1: translateText[
+                                                      "sucess_pay"]![language],
+                                                  text2: translateText[
+                                                      "text7"]![language])),
+                                          (route) => false);
+                                    } else {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NoInternet()),
+                                          (route) => false);
+                                    }
+                                  } catch (_) {
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => NoInternet()),
+                                        (route) => false);
+                                  }
+                                }
                               }
                             },
-                            child: isLoading
-                                ? loadingButton()
-                                : longButton(
-                                    translateText["Askـservice"]![language])),
+                            child: longButton(
+                                translateText["Askـservice"]![language])),
                         Container(
                           height: 40,
                         )

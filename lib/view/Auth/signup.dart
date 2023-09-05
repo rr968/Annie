@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:build/controller/erroralert.dart';
 import 'package:build/main.dart';
+import 'package:build/model/notification.dart';
 import 'package:build/view/Auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -33,6 +34,11 @@ class _SignUpState extends State<SignUp> {
 
   bool isLoading = false;
   String _currentSelectedValue = cities[0];
+  @override
+  void initState() {
+    Notificationc.initialize(flutterLocalNotificationsPlugin);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -503,6 +509,10 @@ class _SignUpState extends State<SignUp> {
         pref.setStringList(
             "user", [token, name, email, phoneNumber, image, city]);
         setIsSignIn(true).then((v) {
+          showTextNotification(
+              title: translateText["Congrats"]![language],
+              body: translateText["accountcreated"]![language],
+              fln: flutterLocalNotificationsPlugin);
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const MainPage()),

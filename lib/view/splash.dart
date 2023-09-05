@@ -5,7 +5,7 @@ import 'dart:developer';
 
 import 'package:build/model/services.dart';
 import 'package:build/view/mainpage.dart';
-import 'package:build/view/no_imternet.dart';
+import 'package:build/controller/no_imternet.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../controller/constant.dart';
@@ -137,22 +137,11 @@ class _SplashState extends State<Splash> {
     deviceHeight = MediaQuery.of(context).size.height;
     deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xffAA277B),
-              Color(0xff4C2963),
-            ],
-          ),
-        ),
-        child: Center(
-            child: Image.asset(
-          "assets/splash.png",
-          height: 100,
-        )),
+      body: Image.asset(
+        "assets/splash.gif",
+        fit: BoxFit.fill,
+        width: deviceWidth,
+        height: deviceHeight,
       ),
     );
   }

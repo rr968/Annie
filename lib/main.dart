@@ -13,7 +13,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 void main() {
   runApp(
-    MyApp(),
+    const MyApp(),
   );
 }
 

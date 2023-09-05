@@ -1,15 +1,13 @@
 import 'package:build/controller/constant.dart';
 import 'package:build/controller/helper.dart';
 import 'package:build/main.dart';
-import 'package:build/model/notification.dart';
 import 'package:build/view/Auth/login.dart';
 import 'package:build/view/FirstSevice/first_service.dart';
 import 'package:build/view/SecondService/secondservice.dart';
-import 'package:build/view/homepage/carousel_slider.dart';
 import 'package:build/view/splash.dart';
 import 'package:flutter/material.dart';
 
-import '../../pageroute.dart';
+import '../../controller/pageroute.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -75,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           Image.asset(
-                            "assets/logo.png",
+                            "assets/logo-2.png",
                             height: 65,
                           ),
                           InkWell(
@@ -107,8 +105,8 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   child: Column(
                     children: [
-                      const SizedBox(
-                          height: 250, child: CarouselWithIndicatorDemo()),
+                      SizedBox(
+                          height: 250, child: Image.asset("assets/cur.gif")),
                       box(services[0].name, services[0].description,
                           services[0].image, () {
                         Navigator.of(context).push(createRoute(
