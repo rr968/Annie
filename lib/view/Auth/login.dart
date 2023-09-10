@@ -7,7 +7,7 @@ import 'package:build/controller/erroralert.dart';
 import 'package:build/main.dart';
 import 'package:build/view/Auth/forgetpassword.dart';
 import 'package:build/view/Auth/signup.dart';
-import 'package:build/view/Language/language.dart';
+import 'package:build/Language/language.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -106,13 +106,9 @@ class _LoginState extends State<Login> {
                             decoration: InputDecoration(
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
-                              alignLabelWithHint: true,
-                              contentPadding: const EdgeInsets.all(15),
+                              contentPadding: const EdgeInsets.all(13),
                               labelText: translateText["mobileNum"]![language],
                               labelStyle: const TextStyle(
-                                  fontSize: 17, color: Colors.black),
-                              hintText: translateText["mobileNum"]![language],
-                              hintStyle: const TextStyle(
                                   fontSize: 17, color: Colors.black),
                               enabledBorder: const OutlineInputBorder(
                                   borderRadius:
@@ -171,7 +167,7 @@ class _LoginState extends State<Login> {
                           ),
                         */
                           const SizedBox(
-                            height: 22,
+                            height: 28,
                           ),
                           TextField(
                             controller: passController,
@@ -187,7 +183,7 @@ class _LoginState extends State<Login> {
                                   });
                                 },
                                 child: Padding(
-                                  padding: const EdgeInsets.all(15),
+                                  padding: const EdgeInsets.all(10),
                                   child: Icon(
                                     !isVisible
                                         ? Icons.visibility_off
@@ -196,12 +192,9 @@ class _LoginState extends State<Login> {
                                   ),
                                 ),
                               ),
-                              contentPadding: const EdgeInsets.all(15),
+                              contentPadding: const EdgeInsets.all(13),
                               labelText: translateText["pass"]![language],
                               labelStyle: const TextStyle(
-                                  fontSize: 17, color: Colors.black),
-                              hintText: translateText["pass"]![language],
-                              hintStyle: const TextStyle(
                                   fontSize: 17, color: Colors.black),
                               enabledBorder: const OutlineInputBorder(
                                   borderRadius:
@@ -261,14 +254,14 @@ class _LoginState extends State<Login> {
                                     translateText["signIn"]![language]),
                           ),
                           const SizedBox(
-                            height: 25,
+                            height: 20,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 translateText["noAccount"]![language],
-                                style: const TextStyle(fontSize: 19),
+                                style: const TextStyle(fontSize: 16),
                               ),
                               InkWell(
                                 onTap: () {
@@ -281,7 +274,7 @@ class _LoginState extends State<Login> {
                                 child: Text(
                                   translateText["createAccount"]![language],
                                   style: TextStyle(
-                                      fontSize: 19,
+                                      fontSize: 16,
                                       color: maincolor,
                                       fontWeight: FontWeight.bold),
                                 ),

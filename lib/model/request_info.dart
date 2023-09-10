@@ -8,7 +8,7 @@ class RequestInfo {
   final String requestTypeEn;
   final String? requestNature;
   final String? requestNatureEn;
-  final int floorsCount;
+  final String floorsCount;
   final int? cityId;
   final String? rejectionReason;
   final bool editable;

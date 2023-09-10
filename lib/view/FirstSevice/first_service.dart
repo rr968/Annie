@@ -1,20 +1,17 @@
 // ignore_for_file: use_build_context_synchronously, avoid_function_literals_in_foreach_calls
 
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:build/controller/button.dart';
 import 'package:build/controller/constant.dart';
+import 'package:build/controller/erroralert.dart';
 import 'package:build/controller/no_imternet.dart';
 import 'package:build/main.dart';
 import 'package:build/controller/success.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:my_fatoorah/my_fatoorah.dart';
 
 import '../../controller/snackbar.dart';
-import '../Language/language.dart';
+import '../../Language/language.dart';
 
 class FirstService extends StatefulWidget {
   const FirstService({super.key});
@@ -24,13 +21,14 @@ class FirstService extends StatefulWidget {
 }
 
 class _FirstServiceState extends State<FirstService> {
-  final TextEditingController _numberOfFloor = TextEditingController();
-
   final items = types;
   String dropDownValue = types[0];
+  String dropDownFloorValue = floors[0].name;
+
   int groupValue1 = 0;
   int groupValue2 = 0;
   List<String> filesPath = [];
+  int price = 2200;
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +154,7 @@ class _FirstServiceState extends State<FirstService> {
               Padding(
                 padding: const EdgeInsets.all(20),
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height - 400,
+                  height: MediaQuery.of(context).size.height - 330,
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
@@ -313,6 +311,7 @@ class _FirstServiceState extends State<FirstService> {
                                             onChanged: (v) {
                                               setState(() {
                                                 dropDownValue = v!;
+                                                getPrice();
                                               });
                                             },
                                           ),
@@ -340,43 +339,40 @@ class _FirstServiceState extends State<FirstService> {
                             ),
                             Expanded(
                               flex: 3,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                        height: 55,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: maincolor, width: 1.5),
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextField(
-                                            controller: _numberOfFloor,
-                                            cursorColor: maincolor,
-                                            textInputAction:
-                                                TextInputAction.done,
-                                            keyboardType: const TextInputType
-                                                .numberWithOptions(
-                                                signed: true, decimal: false),
-                                            decoration: const InputDecoration(
-                                                border: InputBorder.none),
+                              child: Container(
+                                height: 55,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: maincolor, width: 1.5),
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 20, left: 20),
+                                    child: Center(
+                                      child: DropdownButtonHideUnderline(
+                                        child: DropdownButton<String>(
+                                          alignment: Alignment.center,
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          value: dropDownFloorValue,
+                                          isExpanded: true,
+                                          icon: Image.asset(
+                                            "assets/arrow2.png",
+                                            height: 13,
                                           ),
-                                        )),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      translateText["Floor"]![language],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          color: maincolor,
-                                          fontSize: 20),
-                                    ),
-                                  )
-                                ],
+                                          items: floorsNameList
+                                              .map(buildMenueItems)
+                                              .toList(),
+                                          onChanged: (v) {
+                                            setState(() {
+                                              dropDownFloorValue = v!;
+                                              getPrice();
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    )),
                               ),
                             )
                           ],
@@ -478,8 +474,8 @@ class _FirstServiceState extends State<FirstService> {
                         ),
                         Text(
                           language == 0
-                              ? "سيتم دفع 500 درهم رسوم"
-                              : "A fee of 500 dirhams will be paid.",
+                              ? "سيتم دفع $price درهم رسوم"
+                              : "A fee of $price dirhams will be paid.",
                           style: normalTextStyle(),
                         ),
                         Container(
@@ -487,35 +483,27 @@ class _FirstServiceState extends State<FirstService> {
                         ),
                         InkWell(
                             onTap: () async {
-                              String cityId = (groupValue2 + 1).toString();
-                              String requestNature =
-                                  (groupValue1 + 1).toString();
-                              String requestType =
-                                  (types.indexOf(dropDownValue) + 1).toString();
-                              int floorsCount = 2;
-                              Map<String, String> headers2 = {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ${currentUser.token}'
-                              };
-                              bool isInteger = false;
-
-                              try {
-                                floorsCount =
-                                    int.parse(_numberOfFloor.text.trim());
-                                isInteger = true;
-                              } catch (e) {
-                                isInteger = false;
-                              }
-
-                              if (filesPath.isEmpty) {
-                                snackbar(
-                                    context, "يجب رفع المخططات الخاصة بمشروعك");
-                              } else if (!isInteger) {
-                                snackbar(context,
-                                    "يجب إدخال عدد الطوابق بالشكل الصحيح");
+                              if (dropDownFloorValue == floorsNameList[10]) {
+                                contactAlert(context);
                               } else {
-                                var response = await MyFatoorah.startPayment(
+                                String cityId = (groupValue2 + 1).toString();
+                                String requestNature =
+                                    (groupValue1 + 1).toString();
+                                String requestType =
+                                    (types.indexOf(dropDownValue) + 1)
+                                        .toString();
+
+                                Map<String, String> headers2 = {
+                                  'Accept': 'application/json',
+                                  'Content-Type': 'application/json',
+                                  'Authorization': 'Bearer ${currentUser.token}'
+                                };
+
+                                if (filesPath.isEmpty) {
+                                  snackbar(context,
+                                      "يجب رفع المخططات الخاصة بمشروعك");
+                                } else {
+                                  /*   var response = await MyFatoorah.startPayment(
                                   afterPaymentBehaviour: AfterPaymentBehaviour
                                       .AfterCallbackExecution,
                                   context: context,
@@ -531,51 +519,65 @@ class _FirstServiceState extends State<FirstService> {
                                         "rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL",
                                   ),
                                 );
-                                if (response.isSuccess) {
-                                  try {
-                                    var request = http.MultipartRequest('POST',
-                                        Uri.parse('$baseUrl/find-constructor'));
-                                    request.fields.addAll({
-                                      'cityId': cityId,
-                                      'requestNature': requestNature,
-                                      'requestType': requestType,
-                                      'floorsCount': floorsCount.toString(),
-                                    });
-                                    filesPath.forEach((element) async {
-                                      request.files.add(
-                                          await http.MultipartFile.fromPath(
-                                              'files[]', element));
-                                    });
+                                if (response.isSuccess) {*/
+                                  if (true) {
+                                    try {
+                                      var request = http.MultipartRequest(
+                                          'POST',
+                                          Uri.parse(
+                                              '$baseUrl/find-constructor'));
+                                      request.fields.addAll({
+                                        'cityId': cityId,
+                                        'requestNature': requestNature,
+                                        'requestType': requestType,
+                                        'floorsCount': ((floorsNameList.indexOf(
+                                                    dropDownFloorValue)) +
+                                                1)
+                                            .toString(),
+                                        'markAsPendingOfferSelection': 'true'
+                                      });
 
-                                    request.headers.addAll(headers2);
+                                      filesPath.forEach((element) async {
+                                        request.files.add(
+                                            await http.MultipartFile.fromPath(
+                                                'files[]', element));
+                                      });
 
-                                    http.StreamedResponse response =
-                                        await request.send();
+                                      request.headers.addAll(headers2);
 
-                                    if (response.statusCode == 201) {
-                                      Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => SuccessPage(
-                                                  text1: translateText[
-                                                      "sucess_pay"]![language],
-                                                  text2: translateText[
-                                                      "text7"]![language])),
-                                          (route) => false);
-                                    } else {
+                                      http.StreamedResponse response =
+                                          await request.send();
+
+                                      if (response.statusCode == 201) {
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SuccessPage(
+                                                        text1: translateText[
+                                                                "sucess_pay"]![
+                                                            language],
+                                                        text2:
+                                                            translateText[
+                                                                    "text7"]![
+                                                                language])),
+                                            (route) => false);
+                                      } else {
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const NoInternet()),
+                                            (route) => false);
+                                      }
+                                    } catch (e) {
                                       Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  NoInternet()),
+                                                  const NoInternet()),
                                           (route) => false);
                                     }
-                                  } catch (_) {
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => NoInternet()),
-                                        (route) => false);
                                   }
                                 }
                               }
@@ -583,7 +585,7 @@ class _FirstServiceState extends State<FirstService> {
                             child: longButton(
                                 translateText["Askـservice"]![language])),
                         Container(
-                          height: 40,
+                          height: 45,
                         )
                       ],
                     ),
@@ -597,14 +599,47 @@ class _FirstServiceState extends State<FirstService> {
     );
   }
 
+  getPrice() {
+    int p = 2200;
+
+    try {
+      int index = floorsNameList.indexOf(dropDownFloorValue);
+      int indextype = items.indexOf(dropDownValue);
+      if (indextype == 0 && index > 5) {
+        dropDownFloorValue = floorsNameList[5];
+      }
+
+      if (index == -1 || index == 10) {
+        p = 00;
+      } else {
+        p = indextype == 0
+            ? floors[index].villasPrice
+            : floors[index].buildingPrice;
+      }
+    } catch (_) {}
+    setState(() {
+      price = p;
+    });
+  }
+
   DropdownMenuItem<String> buildMenueItems(String item) => DropdownMenuItem(
       value: item,
+      enabled: !(dropDownValue == items[0] &&
+          floorsNameList.getRange(6, floorsNameList.length).contains(item)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             item,
-            style: normalTextStyle(),
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: (dropDownValue == items[0] &&
+                        floorsNameList
+                            .getRange(6, floorsNameList.length)
+                            .contains(item))
+                    ? Colors.grey
+                    : maincolor,
+                fontSize: 17),
           ),
         ],
       ));
@@ -643,4 +678,8 @@ normalTextStyle() {
 
 textStyle2() {
   return TextStyle(fontWeight: FontWeight.w600, color: maincolor, fontSize: 23);
+}
+
+textStyle3() {
+  return TextStyle(fontWeight: FontWeight.w600, color: maincolor, fontSize: 20);
 }

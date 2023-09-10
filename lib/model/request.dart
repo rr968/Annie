@@ -1,5 +1,6 @@
 class Request {
   final int id;
+  final int serviceId;
   final String serviceName;
   final String serviceNameEn;
   final int status;
@@ -8,6 +9,7 @@ class Request {
 
   Request(
       {required this.id,
+      required this.serviceId,
       required this.serviceName,
       required this.serviceNameEn,
       required this.status,

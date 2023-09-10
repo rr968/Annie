@@ -8,13 +8,12 @@ import 'package:build/main.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../controller/button.dart';
 import '../../controller/constant.dart';
 import '../../controller/snackbar.dart';
-import '../Language/language.dart';
+import '../../Language/language.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -163,7 +162,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                       alignment: Alignment.topCenter,
                       child: Padding(
                         padding: const EdgeInsets.only(
-                            left: 30, right: 30, top: 120),
+                            left: 30, right: 30, top: 105),
                         child: SingleChildScrollView(
                           reverse: true,
                           child: Column(
@@ -180,7 +179,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                             FloatingLabelBehavior.always,
                                         alignLabelWithHint: true,
                                         contentPadding:
-                                            const EdgeInsets.all(15),
+                                            const EdgeInsets.all(10),
                                         labelText:
                                             translateText["name"]![language],
                                         labelStyle: const TextStyle(
@@ -223,7 +222,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.always,
                                     alignLabelWithHint: true,
-                                    contentPadding: const EdgeInsets.all(15),
+                                    contentPadding: const EdgeInsets.all(10),
                                     labelText:
                                         translateText["mobileNum"]![language],
                                     labelStyle: const TextStyle(
@@ -265,7 +264,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.always,
                                     alignLabelWithHint: true,
-                                    contentPadding: const EdgeInsets.all(15),
+                                    contentPadding: const EdgeInsets.all(10),
                                     label: SizedBox(
                                       width: 70,
                                       child: Text(
@@ -316,7 +315,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                                   color: Colors.black),
                                               alignLabelWithHint: true,
                                               contentPadding:
-                                                  const EdgeInsets.all(15),
+                                                  const EdgeInsets.all(10),
                                               enabledBorder:
                                                   const OutlineInputBorder(
                                                       borderRadius:
@@ -377,7 +376,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                               FloatingLabelBehavior.always,
                                           alignLabelWithHint: true,
                                           contentPadding:
-                                              const EdgeInsets.all(15),
+                                              const EdgeInsets.all(10),
                                           labelText: translateText["country"]![
                                               language],
                                           labelStyle: const TextStyle(
@@ -409,7 +408,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                       ),
                               ),
                               Container(
-                                height: 40,
+                                height: 30,
                               ),
                               isEditing
                                   ? InkWell(
@@ -530,7 +529,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 144),
+              padding: const EdgeInsets.only(top: 140),
               child: Align(
                 alignment: Alignment.center,
                 child: Column(
@@ -538,8 +537,9 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                     InkWell(
                       onTap: () async {
                         if (isEditing) {
-                          bool a = await Permission.photos.isGranted;
-                          if (a) {
+                          //   bool a = await Permission.photos.isGranted;
+                          //    if (a) {
+                          try {
                             XFile? pickedImage = await ImagePicker()
                                 .pickImage(source: ImageSource.gallery);
                             if (pickedImage != null) {
@@ -547,7 +547,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                 temporaryImage = pickedImage.path;
                               });
                             }
-                          } else {
+                          } catch (_) {}
+                          /*   }  else {
                             await Permission.photos.request();
                             if (await Permission.photos.isGranted) {
                               XFile? pickedImage = await ImagePicker()
@@ -558,7 +559,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                 });
                               }
                             }
-                          }
+                          }*/
                         }
                       },
                       child: Stack(
@@ -590,7 +591,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 5),
                       child: Text(
                         currentUser.name,
                         style: TextStyle(

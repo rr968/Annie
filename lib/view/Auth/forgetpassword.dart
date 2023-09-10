@@ -10,7 +10,7 @@ import '../../controller/constant.dart';
 import '../../controller/erroralert.dart';
 import '../../controller/snackbar.dart';
 import '../../main.dart';
-import '../Language/language.dart';
+import '../../Language/language.dart';
 
 class ForgetPassWord extends StatefulWidget {
   const ForgetPassWord({super.key});

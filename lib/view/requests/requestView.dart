@@ -9,7 +9,7 @@ import 'package:build/controller/done.dart';
 import 'package:build/main.dart';
 import 'package:build/model/request_info.dart';
 import 'package:build/view/FirstSevice/first_service.dart';
-import 'package:build/view/Language/language.dart';
+import 'package:build/Language/language.dart';
 import 'package:build/view/mainpage.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -186,7 +186,7 @@ class _ReqestViewState extends State<ReqestView> {
                       Padding(
                         padding: const EdgeInsets.all(20),
                         child: SizedBox(
-                          height: MediaQuery.of(context).size.height - 400,
+                          height: MediaQuery.of(context).size.height - 330,
                           child: SingleChildScrollView(
                             child: Column(
                               children: [
@@ -419,16 +419,6 @@ class _ReqestViewState extends State<ReqestView> {
                                                   )),
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              translateText["Floor"]![language],
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  color: maincolor,
-                                                  fontSize: 20),
-                                            ),
-                                          )
                                         ],
                                       ),
                                     )
@@ -559,7 +549,7 @@ class _ReqestViewState extends State<ReqestView> {
                                             : greyLongButton(translateText[
                                                 "Edit"]![language])),
                                 Container(
-                                  height: 40,
+                                  height: 45,
                                 )
                               ],
                             ),
@@ -598,7 +588,8 @@ class _ReqestViewState extends State<ReqestView> {
             requestTypeEn: element["requestTypeEn"],
             requestNature: element["requestNature"],
             requestNatureEn: element["requestNatureEn"],
-            floorsCount: element["floorsCount"],
+            floorsCount: floorsNameList[
+                element["floorsCount"] - 1], //to be index not count
             cityId: element["cityId"],
             rejectionReason: element["rejectionReason"],
             editable: element["editable"],

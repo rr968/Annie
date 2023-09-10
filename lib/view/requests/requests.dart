@@ -7,7 +7,7 @@ import 'package:build/controller/erroralert.dart';
 import 'package:build/main.dart';
 import 'package:build/model/request.dart';
 import 'package:build/view/FirstSevice/first_service.dart';
-import 'package:build/view/Language/language.dart';
+import 'package:build/Language/language.dart';
 import 'package:build/view/mainpage.dart';
 import 'package:build/view/requests/requestView.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +45,7 @@ class _RequestsState extends State<Requests> {
         for (var element in data) {
           requestList.add(Request(
             id: element["id"],
+            serviceId: element["serviceId"],
             serviceName: element["serviceName"],
             serviceNameEn: element["serviceNameEn"],
             status: element["status"],
@@ -73,58 +74,61 @@ class _RequestsState extends State<Requests> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Directionality(
-        textDirection: language == 0 ? TextDirection.rtl : TextDirection.ltr,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 55, bottom: 18),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      translateText["Myـrequests"]![language],
-                      style: textStyle2(),
-                    ),
-                    Icon(
-                      language == 0
-                          ? Icons.arrow_back_ios_new
-                          : Icons.arrow_forward_ios,
-                      size: 35,
-                    )
-                  ],
+    return SafeArea(
+      maintainBottomViewPadding: true,
+      child: Scaffold(
+        body: Directionality(
+          textDirection: language == 0 ? TextDirection.rtl : TextDirection.ltr,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 18),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        translateText["Myـrequests"]![language],
+                        style: textStyle2(),
+                      ), /*
+                      Icon(
+                        language == 0
+                            ? Icons.arrow_back_ios_new
+                            : Icons.arrow_forward_ios,
+                        size: 35,
+                      )*/
+                    ],
+                  ),
                 ),
-              ),
-              isLoading
-                  ? Center(
-                      child: CircularProgressIndicator(color: maincolor),
-                    )
-                  : requestList.isEmpty
-                      ? const Text("لا يوجد طلبات بعد")
-                      : Expanded(
-                          child: ListView(
-                            padding: EdgeInsets.zero,
-                            children: [
-                              for (int i = 0; i < requestList.length; i++)
-                                noteBox(
-                                    language == 0
-                                        ? requestList[i].serviceName
-                                        : requestList[i].serviceNameEn,
-                                    requestList[i].id,
-                                    language == 0
-                                        ? requestList[i].statusMsg
-                                        : requestList[i].statusMsgEn,
-                                    requestList[i].status),
-                            ],
+                isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(color: maincolor),
+                      )
+                    : requestList.isEmpty
+                        ? const Text("لا يوجد طلبات بعد")
+                        : Expanded(
+                            child: ListView(
+                              padding: EdgeInsets.zero,
+                              children: [
+                                for (int i = 0; i < requestList.length; i++)
+                                  noteBox(
+                                      language == 0
+                                          ? requestList[i].serviceName
+                                          : requestList[i].serviceNameEn,
+                                      requestList[i].id,
+                                      language == 0
+                                          ? requestList[i].statusMsg
+                                          : requestList[i].statusMsgEn,
+                                      requestList[i].status),
+                              ],
+                            ),
                           ),
-                        ),
-              Container(
-                height: 50,
-              )
-            ],
+                Container(
+                  height: 70,
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -176,7 +180,7 @@ class _RequestsState extends State<Requests> {
                                 decoration: BoxDecoration(
                                     color: statusId != 2
                                         ? pinkcolor
-                                        : Color(0xffFF0000),
+                                        : const Color(0xffFF0000),
                                     borderRadius: BorderRadius.circular(5)),
                                 child: Center(
                                   child: Padding(

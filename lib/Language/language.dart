@@ -113,7 +113,7 @@ Map<String, List> translateText = {
     "تم الدفع بنجاح سوف تصلك العروض خلال ١٠ ايام عمل",
     "Payment has been completed successfully. You will receive the offers within 10 working days"
   ],
-  "contract1": [
+  "contract2": [
     """الطرف الأول:  تطبيق أبني ABNI
 الطرف الثاني:  العميل
 • قد إتفق الطرفان على بنود هذا العقد بعد أن أقرا بأهليتهما القانونية للتعاقد فقد إتفقا على الاتي:
@@ -141,7 +141,7 @@ Preamble:
 4. The second party is obligated not to pursue the first party with any future lawsuits of all kinds if the contractor or consultant defaults to any dispute between them or because of the construction plans and their review.
 I have read all terms and the entire contract and agree of the same."""
   ],
-  "contract2": [
+  "contract1": [
     """إنه في يوم : الموافق : تم الاتفاق بين كلاً من :
 الطرف الأول : تطبيق أبني (الشركة ) .
 الطرف الثاني : .................... ........................ ( المالك ).

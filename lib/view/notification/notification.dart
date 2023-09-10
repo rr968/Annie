@@ -6,7 +6,7 @@ import 'package:build/controller/erroralert.dart';
 import 'package:build/main.dart';
 import 'package:build/model/noti.dart';
 import 'package:build/view/FirstSevice/first_service.dart';
-import 'package:build/view/Language/language.dart';
+import 'package:build/Language/language.dart';
 import 'package:build/view/mainpage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -70,58 +70,62 @@ class _NotificationsState extends State<Notifications> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Directionality(
-        textDirection: language == 0 ? TextDirection.rtl : TextDirection.ltr,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 55, bottom: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      translateText["Notifications"]![language],
-                      style: textStyle2(),
-                    ),
-                    Icon(
-                      language == 0
-                          ? Icons.arrow_back_ios_new
-                          : Icons.arrow_forward_ios,
-                      size: 35,
-                    )
-                  ],
-                ),
-              ),
-              isLoading
-                  ? Center(
-                      child: CircularProgressIndicator(
-                      color: maincolor,
-                    ))
-                  : Expanded(
-                      child: ListView(
-                        padding: EdgeInsets.zero,
-                        children: [
-                          for (int i = 0; i < notificatiosList.length; i++)
-                            noteBox(
-                                language == 0
-                                    ? notificatiosList[i].titleAr
-                                    : notificatiosList[i].titleEn,
-                                language == 0
-                                    ? notificatiosList[i].messageAr
-                                    : notificatiosList[i].messageEn,
-                                language == 0
-                                    ? notificatiosList[i].createdAtAr
-                                    : notificatiosList[i].createdAt),
-                        ],
+    return SafeArea(
+      maintainBottomViewPadding: true,
+      child: Scaffold(
+        body: Directionality(
+          textDirection: language == 0 ? TextDirection.rtl : TextDirection.ltr,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        translateText["Notifications"]![language],
+                        style: textStyle2(),
                       ),
-                    ),
-              Container(
-                height: 90,
-              )
-            ],
+                      /*
+                      Icon(
+                        language == 0
+                            ? Icons.arrow_back_ios_new
+                            : Icons.arrow_forward_ios,
+                        size: 35,
+                      )*/
+                    ],
+                  ),
+                ),
+                isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(
+                        color: maincolor,
+                      ))
+                    : Expanded(
+                        child: ListView(
+                          padding: EdgeInsets.zero,
+                          children: [
+                            for (int i = 0; i < notificatiosList.length; i++)
+                              noteBox(
+                                  language == 0
+                                      ? notificatiosList[i].titleAr
+                                      : notificatiosList[i].titleEn,
+                                  language == 0
+                                      ? notificatiosList[i].messageAr
+                                      : notificatiosList[i].messageEn,
+                                  language == 0
+                                      ? notificatiosList[i].createdAtAr
+                                      : notificatiosList[i].createdAt),
+                          ],
+                        ),
+                      ),
+                Container(
+                  height: 70,
+                )
+              ],
+            ),
           ),
         ),
       ),

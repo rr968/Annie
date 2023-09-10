@@ -1,6 +1,6 @@
 import 'package:build/controller/button.dart';
 import 'package:build/main.dart';
-import 'package:build/view/Language/language.dart';
+import 'package:build/Language/language.dart';
 import 'package:build/view/offers/contract.dart';
 import 'package:flutter/material.dart';
 

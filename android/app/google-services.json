@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "43761218756",
+    "project_id": "abni-54b18",
+    "storage_bucket": "abni-54b18.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:43761218756:android:2f6ca14b597169f089c591",
+        "android_client_info": {
+          "package_name": "com.example.build"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "43761218756-ouv1j4kg5u0jrr647s65m6gpj4ofumfe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpNhGYG3S_L3JRZ-jrsinnMVkKnq6RpR0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "43761218756-ouv1j4kg5u0jrr647s65m6gpj4ofumfe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

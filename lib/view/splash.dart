@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:build/model/pricing.dart';
 import 'package:build/model/services.dart';
 import 'package:build/view/mainpage.dart';
 import 'package:build/controller/no_imternet.dart';
@@ -27,10 +28,23 @@ class _SplashState extends State<Splash> {
     setApiData();
     getIsSignIn();
     getUserData();
-
+    getPriceData();
+    getcontactdata();
     getlanguage();
 
     super.initState();
+  }
+
+  getcontactdata() async {
+    try {
+      var request = await http.get(Uri.parse('$baseUrl/settings/contact-us'),
+          headers: headers);
+      if (request.statusCode == 200) {
+        Map data = json.decode(request.body);
+        contactPhone = data["contactPhone"];
+        contactEmail = data["contactEmail"];
+      }
+    } catch (_) {}
   }
 
   getIsSignIn() async {
@@ -76,7 +90,7 @@ class _SplashState extends State<Splash> {
         natures = nat2;
         types = ty2;
 
-        data2();
+        getPriceData();
       } else {
         log("e.toString()");
         Navigator.pushAndRemoveUntil(
@@ -86,6 +100,44 @@ class _SplashState extends State<Splash> {
       }
     } catch (e) {
       log(e.toString());
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const NoInternet()),
+          (route) => false);
+    }
+  }
+
+  getPriceData() async {
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    };
+    try {
+      var request =
+          await http.get(Uri.parse('$baseUrl/level-pricing'), headers: headers);
+      if (request.statusCode == 200) {
+        List data11 = json.decode(request.body)["buildings"];
+        List data21 = json.decode(request.body)["villas"];
+        floors = [];
+        floorsNameList = [];
+        for (int i = 0; i < data11.length; i++) {
+          floors.add(Pricing(
+              name: data11[i]["level"],
+              buildingPrice: data11[i]["price"],
+              villasPrice: i < 6 ? data21[i]["price"] : 0));
+
+          floorsNameList.add(data11[i]["level"].toString());
+        }
+        floorsNameList.add("G+5");
+
+        data2();
+      } else {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const NoInternet()),
+            (route) => false);
+      }
+    } catch (e) {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => const NoInternet()),

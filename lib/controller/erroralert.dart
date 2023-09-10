@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:build/controller/snackbar.dart';
-import 'package:build/view/Language/language.dart';
+import 'package:build/Language/language.dart';
 import 'package:http/http.dart' as http;
 import 'package:build/main.dart';
 import 'package:flutter/material.dart';
@@ -222,6 +222,68 @@ deleteAlert(context) {
                   ),
                 ],
               ),
+            ),
+          ),
+        );
+      });
+}
+
+contactAlert(context) {
+  showDialog(
+      context: context,
+      builder: (context) {
+        String num = contactPhone;
+        String text = """
+ G+5 لأن عدد الطوابق 
+يرجى التواصل معنا على الرقم
+$num
+""";
+        return FittedBox(
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            title: Column(
+              children: [
+                SizedBox(
+                    height: 130,
+                    child: Image.asset(
+                      "assets/send.gif",
+                      fit: BoxFit.fill,
+                    )),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  text,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: maincolor),
+                ),
+                InkWell(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Container(
+                    width: 100,
+                    height: 45,
+                    decoration: BoxDecoration(
+                      color: maincolor,
+                      borderRadius: BorderRadius.circular(10),
+                      // border: Border.all(color: Colors.black, width: 2)
+                    ),
+                    child: Center(
+                        child: Text(
+                      translateText["OK"]![language],
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white),
+                    )),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
             ),
           ),
         );

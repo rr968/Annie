@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:build/controller/erroralert.dart';
 import 'package:build/main.dart';
-import 'package:build/model/notification.dart';
 import 'package:build/view/Auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -15,7 +14,7 @@ import '../../controller/constant.dart';
 import '../../controller/helper.dart';
 import '../../controller/snackbar.dart';
 import '../../model/user.dart';
-import '../Language/language.dart';
+import '../../Language/language.dart';
 import '../mainpage.dart';
 
 class SignUp extends StatefulWidget {
@@ -31,14 +30,11 @@ class _SignUpState extends State<SignUp> {
   TextEditingController vpassController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  bool isShowPass1 = true;
+  bool isShowPass2 = true;
 
   bool isLoading = false;
   String _currentSelectedValue = cities[0];
-  @override
-  void initState() {
-    Notificationc.initialize(flutterLocalNotificationsPlugin);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +62,8 @@ class _SignUpState extends State<SignUp> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Container(
-                    height: 250,
-                    width: 250,
+                    height: 240,
+                    width: 240,
                     decoration: const BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage(
@@ -109,7 +105,7 @@ class _SignUpState extends State<SignUp> {
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
                               alignLabelWithHint: true,
-                              contentPadding: const EdgeInsets.all(15),
+                              contentPadding: const EdgeInsets.all(10),
                               label: SizedBox(
                                 width: 70,
                                 child: Row(
@@ -128,9 +124,6 @@ class _SignUpState extends State<SignUp> {
                               ),
                               labelStyle: const TextStyle(
                                   fontSize: 17, color: Colors.black),
-                              hintText: translateText["name"]![language],
-                              hintStyle: const TextStyle(
-                                  fontSize: 17, color: Colors.black),
                               enabledBorder: const OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(18)),
@@ -145,7 +138,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 25,
                           ),
                           TextField(
                             ///////
@@ -155,7 +148,7 @@ class _SignUpState extends State<SignUp> {
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
                               alignLabelWithHint: true,
-                              contentPadding: const EdgeInsets.all(15),
+                              contentPadding: const EdgeInsets.all(10),
                               label: SizedBox(
                                 width: 155,
                                 child: Row(
@@ -174,9 +167,6 @@ class _SignUpState extends State<SignUp> {
                               ),
                               labelStyle: const TextStyle(
                                   fontSize: 17, color: Colors.black),
-                              hintText: translateText["mobileNum"]![language],
-                              hintStyle: const TextStyle(
-                                  fontSize: 17, color: Colors.black),
                               enabledBorder: const OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(18)),
@@ -191,7 +181,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 25,
                           ),
                           FormField<String>(
                             builder: (FormFieldState<String> state) {
@@ -214,7 +204,7 @@ class _SignUpState extends State<SignUp> {
                                     ),
                                   ),
                                   alignLabelWithHint: true,
-                                  contentPadding: const EdgeInsets.all(15),
+                                  contentPadding: const EdgeInsets.all(10),
                                   enabledBorder: const OutlineInputBorder(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(18)),
@@ -227,9 +217,6 @@ class _SignUpState extends State<SignUp> {
                                       borderSide: BorderSide(
                                           width: 2, color: Colors.grey)),
                                   labelStyle: const TextStyle(
-                                      fontSize: 17, color: Colors.black),
-                                  hintText: translateText["country"]![language],
-                                  hintStyle: const TextStyle(
                                       fontSize: 17, color: Colors.black),
                                 ),
                                 child: DropdownButtonHideUnderline(
@@ -254,16 +241,33 @@ class _SignUpState extends State<SignUp> {
                             },
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 25,
                           ),
                           TextField(
                             controller: passController,
                             cursorColor: Colors.black,
+                            obscureText: isShowPass1,
                             decoration: InputDecoration(
+                              suffixIcon: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    isShowPass1 = !isShowPass1;
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Icon(
+                                    !isShowPass1
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
                               alignLabelWithHint: true,
-                              contentPadding: const EdgeInsets.all(15),
+                              contentPadding: const EdgeInsets.all(10),
                               label: SizedBox(
                                 width: 120,
                                 child: Row(
@@ -282,9 +286,6 @@ class _SignUpState extends State<SignUp> {
                               ),
                               labelStyle: const TextStyle(
                                   fontSize: 17, color: Colors.black),
-                              hintText: translateText["pass"]![language],
-                              hintStyle: const TextStyle(
-                                  fontSize: 17, color: Colors.black),
                               enabledBorder: const OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(18)),
@@ -299,16 +300,33 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 25,
                           ),
                           TextField(
                             controller: vpassController,
                             cursorColor: Colors.black,
+                            obscureText: isShowPass2,
                             decoration: InputDecoration(
+                              suffixIcon: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    isShowPass2 = !isShowPass2;
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Icon(
+                                    !isShowPass2
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
                               alignLabelWithHint: true,
-                              contentPadding: const EdgeInsets.all(15),
+                              contentPadding: const EdgeInsets.all(10),
                               label: SizedBox(
                                 width: 175,
                                 child: Row(
@@ -327,9 +345,6 @@ class _SignUpState extends State<SignUp> {
                               ),
                               labelStyle: const TextStyle(
                                   fontSize: 17, color: Colors.black),
-                              hintText: translateText["confirmPass"]![language],
-                              hintStyle: const TextStyle(
-                                  fontSize: 17, color: Colors.black),
                               enabledBorder: const OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(18)),
@@ -344,7 +359,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 25,
                           ),
                           TextField(
                             controller: emailController,
@@ -353,7 +368,7 @@ class _SignUpState extends State<SignUp> {
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
                               alignLabelWithHint: true,
-                              contentPadding: const EdgeInsets.all(15),
+                              contentPadding: const EdgeInsets.all(10),
                               label: SizedBox(
                                 width: 80,
                                 child: Row(
@@ -372,9 +387,6 @@ class _SignUpState extends State<SignUp> {
                               ),
                               labelStyle: const TextStyle(
                                   fontSize: 17, color: Colors.black),
-                              hintText: translateText["ِEmail"]![language],
-                              hintStyle: const TextStyle(
-                                  fontSize: 17, color: Colors.black),
                               enabledBorder: const OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(18)),
@@ -389,7 +401,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 25,
                           ),
                           InkWell(
                             onTap: () {
@@ -434,7 +446,7 @@ class _SignUpState extends State<SignUp> {
                             children: [
                               Text(
                                 translateText["haveAccount"]![language],
-                                style: const TextStyle(fontSize: 19),
+                                style: const TextStyle(fontSize: 16),
                               ),
                               InkWell(
                                 onTap: () {
@@ -446,7 +458,7 @@ class _SignUpState extends State<SignUp> {
                                 child: Text(
                                   translateText["signIn"]![language],
                                   style: TextStyle(
-                                      fontSize: 19,
+                                      fontSize: 16,
                                       color: maincolor,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -509,10 +521,6 @@ class _SignUpState extends State<SignUp> {
         pref.setStringList(
             "user", [token, name, email, phoneNumber, image, city]);
         setIsSignIn(true).then((v) {
-          showTextNotification(
-              title: translateText["Congrats"]![language],
-              body: translateText["accountcreated"]![language],
-              fln: flutterLocalNotificationsPlugin);
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const MainPage()),

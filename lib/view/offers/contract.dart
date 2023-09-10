@@ -6,7 +6,7 @@ import 'package:build/controller/button.dart';
 import 'package:build/controller/constant.dart';
 import 'package:build/controller/success.dart';
 import 'package:build/main.dart';
-import 'package:build/view/Language/language.dart';
+import 'package:build/Language/language.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -36,138 +36,142 @@ class _ContractState extends State<Contract> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            Directionality(
-              textDirection: TextDirection.rtl,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 70,
-                  bottom: 30,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        Text("الشروط والأحكام",
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              Directionality(
+                textDirection: TextDirection.rtl,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 15,
+                    bottom: 30,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(widget.title1,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: maincolor,
+                                  fontSize: 16)),
+                          Text(
+                            widget.title2,
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
-                                color: maincolor,
-                                fontSize: 23)),
-                        Text(
-                          "Terms&Conditions",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: pinkcolor,
-                              fontSize: 23),
+                                color: pinkcolor,
+                                fontSize: 16),
+                          ),
+                        ],
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Icon(
+                          Icons.arrow_back_ios_new,
+                          size: 30,
                         ),
-                      ],
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(
-                        Icons.arrow_back_ios_new,
-                        size: 35,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Directionality(
-              textDirection:
-                  language == 0 ? TextDirection.rtl : TextDirection.ltr,
-              child: Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color.fromARGB(255, 234, 234, 234)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: SingleChildScrollView(
-                        child: Column(children: [
-                      Text(widget.content),
-                      Container(
-                        height: 20,
-                      ),
-                      FittedBox(
-                        child: Row(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  groupValue1 = !groupValue1;
-                                });
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: groupValue1 ? pinkcolor : Colors.white,
-                                  border: Border.all(
-                                    color:
-                                        groupValue1 ? pinkcolor : Colors.grey,
-                                    width: groupValue1 ? 2 : 1,
-                                  ),
-                                ),
-                                child: const Icon(
-                                  Icons.done,
-                                  color: Colors.white,
-                                  size: 21,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "لقد قرأت العقد وجميع البنود وأوافق عليها",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: maincolor,
-                                    ),
-                                  ),
-                                  Text(
-                                    "I have read and agree to the contract and all terms",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: maincolor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 30,
-                      ),
-                      groupValue1
-                          ? InkWell(
-                              onTap: () {
-                                selectOffer();
-                              },
-                              child: isLoading
-                                  ? loadingButton()
-                                  : longButton(
-                                      translateText["next"]![language]))
-                          : greyLongButton(translateText["next"]![language]),
-                      Container(
-                        height: 40,
                       )
-                    ])),
+                    ],
                   ),
                 ),
               ),
-            )
-          ],
+              Directionality(
+                textDirection:
+                    language == 0 ? TextDirection.rtl : TextDirection.ltr,
+                child: Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color.fromARGB(255, 234, 234, 234)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: SingleChildScrollView(
+                          child: Column(children: [
+                        Text(widget.content),
+                        Container(
+                          height: 20,
+                        ),
+                        FittedBox(
+                          child: Row(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    groupValue1 = !groupValue1;
+                                  });
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color:
+                                        groupValue1 ? pinkcolor : Colors.white,
+                                    border: Border.all(
+                                      color:
+                                          groupValue1 ? pinkcolor : Colors.grey,
+                                      width: groupValue1 ? 2 : 1,
+                                    ),
+                                  ),
+                                  child: const Icon(
+                                    Icons.done,
+                                    color: Colors.white,
+                                    size: 21,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "لقد قرأت العقد وجميع البنود وأوافق عليها",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: maincolor,
+                                      ),
+                                    ),
+                                    Text(
+                                      "I have read and agree to the contract and all terms",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: maincolor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: 30,
+                        ),
+                        groupValue1
+                            ? InkWell(
+                                onTap: () {
+                                  selectOffer();
+                                },
+                                child: isLoading
+                                    ? loadingButton()
+                                    : longButton(
+                                        translateText["next"]![language]))
+                            : greyLongButton(translateText["next"]![language]),
+                        Container(
+                          height: 40,
+                        )
+                      ])),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

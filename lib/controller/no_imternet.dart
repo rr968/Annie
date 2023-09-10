@@ -2,7 +2,7 @@ import 'package:build/view/splash.dart';
 import 'package:flutter/material.dart';
 
 import '../main.dart';
-import '../view/Language/language.dart';
+import '../Language/language.dart';
 
 class NoInternet extends StatelessWidget {
   const NoInternet({super.key});

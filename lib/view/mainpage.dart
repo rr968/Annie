@@ -1,7 +1,9 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
+import 'package:build/controller/SetNotificationToken.dart';
+import 'package:build/controller/constant.dart';
 import 'package:build/main.dart';
 import 'package:build/view/Auth/login.dart';
-import 'package:build/view/Language/language.dart';
+import 'package:build/Language/language.dart';
 
 import 'package:build/view/homepage/homepage.dart';
 import 'package:build/view/offers/mainlist.dart';
@@ -9,6 +11,7 @@ import 'package:build/view/profile/profile.dart';
 import 'package:build/view/requests/requests.dart';
 import 'package:build/view/settings/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'notification/notification.dart';
 
@@ -36,6 +39,19 @@ class _MainPageState extends State<MainPage> {
     const Requests(),
     const Settings(),
   ];
+  @override
+  void initState() {
+    setNotificationToken();
+    super.initState();
+  }
+
+  setNotificationToken() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    bool a = pref.getBool("SetNotificationToken") ?? false;
+    if (!a) {
+      if (notificationToken != null) setNotificationTokenApi();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +63,7 @@ class _MainPageState extends State<MainPage> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: 30,
+                height: 30, //ios 45
                 color: maincolor,
               ),
             ),
@@ -58,12 +74,13 @@ class _MainPageState extends State<MainPage> {
                   notchBottomBarController: _controller,
                   color: const Color(0xff4C2963),
                   showLabel: true,
+                  showShadow: false,
                   notchColor: Colors.pink,
                   itemLabelStyle: const TextStyle(
                       color: Colors.white,
-                      fontSize: 15,
+                      fontSize: 11.5,
                       fontWeight: FontWeight.bold),
-                  durationInMilliSeconds: 400,
+                  durationInMilliSeconds: 500,
                   removeMargins: true,
                   bottomBarItems: [
                     BottomBarItem(
@@ -148,8 +165,8 @@ class _MainPageState extends State<MainPage> {
                   },
                 ),
                 Container(
-                  height: 20,
-                  color: maincolor,
+                  height: 5, //ios 20
+                  // color: maincolor,
                 ),
               ],
             ),
