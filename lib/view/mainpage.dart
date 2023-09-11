@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:build/controller/SetNotificationToken.dart';
 import 'package:build/controller/constant.dart';
@@ -50,6 +52,7 @@ class _MainPageState extends State<MainPage> {
     bool a = pref.getBool("SetNotificationToken") ?? false;
     if (!a) {
       if (notificationToken != null) setNotificationTokenApi();
+      log(notificationToken.toString());
     }
   }
 

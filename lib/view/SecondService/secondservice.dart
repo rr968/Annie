@@ -446,7 +446,7 @@ class _SecondServiceState extends State<SecondService> {
                                                     dropDownFloorValue)) +
                                                 1)
                                             .toString(),
-                                        'markAsPendingOfferSelection': 'true'
+                                        //  'markAsPendingOfferSelection': 'true'
                                       });
                                       filesPath.forEach((element) async {
                                         request.files.add(

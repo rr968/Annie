@@ -8,6 +8,7 @@ import 'package:build/model/services.dart';
 import 'package:build/view/mainpage.dart';
 import 'package:build/controller/no_imternet.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../controller/constant.dart';
 import '../controller/helper.dart';
@@ -23,6 +24,19 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> {
   int seconds = 100;
+
+  Future<void> requestNotificationPermissions() async {
+    final status = await Permission.notification.request();
+
+    if (status.isGranted) {
+      // Permissions granted, you can send notifications
+    } else if (status.isDenied) {
+      // Permissions denied, you can inform the user about the importance of notifications
+    } else if (status.isPermanentlyDenied) {
+      // Permissions permanently denied, you can show a dialog or redirect the user to settings
+    }
+  }
+
   @override
   void initState() {
     setApiData();
@@ -31,6 +45,7 @@ class _SplashState extends State<Splash> {
     getPriceData();
     getcontactdata();
     getlanguage();
+    requestNotificationPermissions();
 
     super.initState();
   }

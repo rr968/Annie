@@ -534,7 +534,7 @@ class _FirstServiceState extends State<FirstService> {
                                                     dropDownFloorValue)) +
                                                 1)
                                             .toString(),
-                                        'markAsPendingOfferSelection': 'true'
+                                        //  'markAsPendingOfferSelection': 'true'
                                       });
 
                                       filesPath.forEach((element) async {
