@@ -405,7 +405,6 @@ class _SecondServiceState extends State<SecondService> {
                                 String requestType =
                                     (types.indexOf(dropDownValue) + 1)
                                         .toString();
-                                int floorsCount = 2;
                                 Map<String, String> headers2 = {
                                   'Accept': 'application/json',
                                   'Content-Type': 'application/json',
