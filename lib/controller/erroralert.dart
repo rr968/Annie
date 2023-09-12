@@ -234,7 +234,7 @@ contactAlert(context) {
       builder: (context) {
         String num = contactPhone;
         String text = """
- G+5 لأن عدد الطوابق 
+ +5 لأن عدد الطوابق 
 يرجى التواصل معنا على الرقم
 $num
 """;
@@ -284,6 +284,99 @@ $num
                   height: 20,
                 ),
               ],
+            ),
+          ),
+        );
+      });
+}
+
+noteAlert(context, String text1, fun) {
+  showDialog(
+      context: context,
+      builder: (context) {
+        return FittedBox(
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              title: Column(
+                children: [
+                  SizedBox(
+                      height: 100,
+                      child: Image.asset(
+                        "assets/note.gif",
+                        fit: BoxFit.fill,
+                      )),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    text1,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: maincolor),
+                  ),
+                  Container(
+                    height: 25,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      InkWell(
+                        onTap: fun,
+                        child: Container(
+                          height: 40,
+                          width: 90,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: maincolor),
+                          child: const Center(
+                              child: Text(
+                            "حسناً",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          )),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 90,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              gradient: const LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Color(0xffAA277B),
+                                  Color(0xff4C2963),
+                                ],
+                              ),
+                              color: maincolor),
+                          child: const Center(
+                              child: Text(
+                            "لا",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          )),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
             ),
           ),
         );

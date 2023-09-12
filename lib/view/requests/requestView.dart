@@ -144,8 +144,8 @@ class _ReqestViewState extends State<ReqestView> {
                                           child: Text(
                                             translateText["Save_money"]![
                                                 language],
-                                            style: const TextStyle(
-                                                color: Color(0xff21E900),
+                                            style: TextStyle(
+                                                color: greencolor,
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.w800),
                                           ),
@@ -448,8 +448,9 @@ class _ReqestViewState extends State<ReqestView> {
                                           Text(
                                             translateText["text4"]![language],
                                             textAlign: TextAlign.start,
-                                            style:
-                                                const TextStyle(fontSize: 11),
+                                            style: const TextStyle(
+                                              fontSize: 11,
+                                            ),
                                           )
                                         ],
                                       ),
@@ -535,10 +536,15 @@ class _ReqestViewState extends State<ReqestView> {
                                 InkWell(
                                     onTap: () async {
                                       if (requestInfo.editable) {
-                                        setState(() {
-                                          isLoading = true;
+                                        noteAlert(context,
+                                            "هل أنت متاكد من التعديل المطلوب",
+                                            () {
+                                          Navigator.pop(context);
+                                          setState(() {
+                                            isLoading = true;
+                                          });
+                                          updateData();
                                         });
-                                        updateData();
                                       }
                                     },
                                     child: isLoading
@@ -546,8 +552,9 @@ class _ReqestViewState extends State<ReqestView> {
                                         : requestInfo.editable
                                             ? longButton(translateText["Edit"]![
                                                 language])
-                                            : greyLongButton(translateText[
-                                                "Edit"]![language])),
+                                            : Container()
+                                    //   greyLongButton(translateText["Edit"]![language])
+                                    ),
                                 Container(
                                   height: 45,
                                 )

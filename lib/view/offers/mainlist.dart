@@ -180,11 +180,6 @@ class _MainListOffersState extends State<MainListOffers> {
                               child: Container(
                                 decoration: BoxDecoration(
                                     color: maincolor,
-                                    /* status == "تم التنفيذ"
-                                        ? const Color(0xff4C2963)
-                                        : status == "ملغي"
-                                            ? const Color(0xffE91C00)
-                                            : const Color(0xff21E900),*/
                                     borderRadius: BorderRadius.circular(5)),
                                 child: Center(
                                   child: Padding(

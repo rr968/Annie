@@ -89,7 +89,7 @@ class _RequestsState extends State<Requests> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        translateText["Myـrequests"]![language],
+                        translateText["Services"]![language],
                         style: textStyle2(),
                       ), /*
                       Icon(
@@ -106,7 +106,7 @@ class _RequestsState extends State<Requests> {
                         child: CircularProgressIndicator(color: maincolor),
                       )
                     : requestList.isEmpty
-                        ? const Text("لا يوجد طلبات بعد")
+                        ? const Text("لا يوجد خدمات بعد")
                         : Expanded(
                             child: ListView(
                               padding: EdgeInsets.zero,

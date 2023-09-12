@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                                         (route) => false);
                                   },
                                   child: Image.asset(
-                                    language == 0
+                                    language == 1
                                         ? "assets/ar.png"
                                         : "assets/en.png",
                                     height: 33,
@@ -118,14 +118,13 @@ class _HomePageState extends State<HomePage> {
                               child: Image.asset("assets/cur.gif")),
                           box(services[0].name, services[0].description,
                               services[0].image, () {
-                            Navigator.of(context).push(createRoute(
-                                isSign ? const FirstService() : const Login()));
+                            Navigator.of(context)
+                                .push(createRoute(const FirstService()));
                           }),
                           box(services[1].name, services[1].description,
                               services[1].image, () {
-                            Navigator.of(context).push(createRoute(isSign
-                                ? const SecondService()
-                                : const Login()));
+                            Navigator.of(context)
+                                .push(createRoute(const SecondService()));
                           }),
                         ],
                       ),

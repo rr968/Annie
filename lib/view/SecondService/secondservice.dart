@@ -1,8 +1,12 @@
 // ignore_for_file: use_build_context_synchronously, avoid_function_literals_in_foreach_calls
 
+import 'dart:developer';
+
+import 'package:build/controller/cachServicesInput.dart';
 import 'package:build/controller/erroralert.dart';
 import 'package:build/controller/no_imternet.dart';
 import 'package:build/main.dart';
+import 'package:build/view/Auth/login.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -22,400 +26,458 @@ class SecondService extends StatefulWidget {
 }
 
 class _SecondServiceState extends State<SecondService> {
-  int currentPrice = 500;
+  int price = 2200;
   final items = types;
   String dropDownValue = types[0];
   List<String> filesPath = [];
   String dropDownFloorValue = floors[0].name;
+  bool isLoading = true;
+  @override
+  void initState() {
+    getSecondServiceNatureIndex().then((nature) {
+      log("nature $nature");
+      if (nature != -1) {
+        dropDownValue = types[nature];
+      }
+      getSecondServiceFloorNumber().then((floorNumber) {
+        log("floorNumber $floorNumber");
+        if (floorNumber != -1) {
+          dropDownFloorValue = floors[floorNumber].name;
+        }
+
+        getSecondServiceFiles().then((files) {
+          log(files.toString());
+          filesPath = files;
+          getPrice();
+          setState(() {
+            isLoading = false;
+          });
+        });
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: language == 0 ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 315,
-                child: Stack(
+        body: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                child: Column(
                   children: [
-                    Image.network(
-                      services[1].image,
-                      fit: BoxFit.fill,
-                      height: 260,
-                    ),
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 184),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * .85,
-                          decoration: BoxDecoration(
-                            boxShadow: const [
-                              BoxShadow(
-                                  blurRadius: 10,
-                                  spreadRadius: 0,
-                                  color: Colors.grey)
-                            ],
-                            borderRadius: BorderRadius.circular(25),
-                            color: Colors.white.withOpacity(1),
+                    SizedBox(
+                      height: 315,
+                      child: Stack(
+                        children: [
+                          Image.network(
+                            services[1].image,
+                            fit: BoxFit.fill,
+                            height: 260,
                           ),
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: Stack(
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 184),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * .85,
+                                decoration: BoxDecoration(
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        blurRadius: 10,
+                                        spreadRadius: 0,
+                                        color: Colors.grey)
+                                  ],
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: Colors.white.withOpacity(1),
+                                ),
+                                child: Column(
                                   children: [
-                                    Image.asset(
-                                      "assets/blure2.png",
-                                      fit: BoxFit.fill,
-                                      height: 90,
-                                      width: MediaQuery.of(context).size.width *
-                                          .85,
-                                    ),
-                                    Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                    Expanded(
+                                      child: Stack(
                                         children: [
-                                          Text(
-                                            services[1].name,
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 25,
-                                                fontWeight: FontWeight.bold),
+                                          Image.asset(
+                                            "assets/blure2.png",
+                                            fit: BoxFit.fill,
+                                            height: 90,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .85,
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 25),
-                                            child: FittedBox(
-                                              child: Text(
-                                                services[1].description,
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
+                                          Center(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  services[1].name,
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 25,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 25),
+                                                  child: FittedBox(
+                                                    child: Text(
+                                                      services[1].description,
+                                                      style: const TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                          )
                                         ],
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(23),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          translateText["Save_money"]![
+                                              language],
+                                          style: TextStyle(
+                                              color: greencolor,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w800),
+                                        ),
                                       ),
                                     )
                                   ],
                                 ),
                               ),
-                              Container(
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(23),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    translateText["Save_money"]![language],
-                                    style: const TextStyle(
-                                        color: Color(0xff21E900),
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w800),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 50, horizontal: 20),
+                              child: InkWell(
+                                onTap: () => Navigator.pop(context),
+                                child: Container(
+                                  height: 43,
+                                  width: 43,
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xffAA277B),
+                                      borderRadius: BorderRadius.circular(100)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Image.asset(
+                                      "assets/arrowback.gif",
+                                    ),
                                   ),
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 50, horizontal: 20),
-                        child: InkWell(
-                          onTap: () => Navigator.pop(context),
-                          child: Container(
-                            height: 43,
-                            width: 43,
-                            decoration: BoxDecoration(
-                                color: const Color(0xffAA277B),
-                                borderRadius: BorderRadius.circular(100)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5),
-                              child: Image.asset(
-                                "assets/arrowback.gif",
                               ),
                             ),
-                          ),
-                        ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height - 330,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Text(
-                          translateText["text5"]![language],
-                          style: normalTextStyle(),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            translateText["text6"]![language],
-                            style: normalTextStyle(),
-                          ),
-                        ),
-                        Container(
-                          height: 15,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8, bottom: 20),
-                          child: Row(
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height - 330,
+                        child: SingleChildScrollView(
+                          child: Column(
                             children: [
-                              Expanded(
-                                flex: 4,
+                              Text(
+                                translateText["text5"]![language],
+                                style: normalTextStyle(),
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
                                 child: Text(
-                                  translateText["projectType"]![language],
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: maincolor,
-                                      fontSize: 20),
+                                  translateText["text6"]![language],
+                                  style: normalTextStyle(),
                                 ),
                               ),
                               Container(
-                                width: 20,
+                                height: 15,
                               ),
-                              Expanded(
-                                flex: 3,
-                                child: Container(
-                                  height: 55,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: maincolor, width: 1.5),
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 20, left: 20),
-                                      child: Center(
-                                        child: DropdownButtonHideUnderline(
-                                          child: DropdownButton<String>(
-                                            alignment: Alignment.center,
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            value: dropDownValue,
-                                            isExpanded: true,
-                                            icon: Image.asset(
-                                              "assets/arrow2.png",
-                                              height: 13,
-                                            ),
-                                            items: items
-                                                .map(buildMenueItems)
-                                                .toList(),
-                                            onChanged: (v) {
-                                              setState(() {
-                                                int index =
-                                                    floorsNameList.indexOf(
-                                                        dropDownFloorValue);
-                                                int indextype = items
-                                                    .indexOf(dropDownValue);
-                                                if (indextype == 0 &&
-                                                    index > 5) {
-                                                  dropDownFloorValue =
-                                                      floorsNameList[5];
-                                                }
-                                                dropDownValue = v!;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                      )),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 4,
-                              child: Text(
-                                translateText["numberoffloors"]![language],
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: maincolor,
-                                    fontSize: 20),
-                              ),
-                            ),
-                            Container(
-                              width: 20,
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: Container(
-                                height: 55,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: maincolor, width: 1.5),
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 20, left: 20),
-                                    child: Center(
-                                      child: DropdownButtonHideUnderline(
-                                        child: DropdownButton<String>(
-                                          alignment: Alignment.center,
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          value: dropDownFloorValue,
-                                          isExpanded: true,
-                                          icon: Image.asset(
-                                            "assets/arrow2.png",
-                                            height: 13,
-                                          ),
-                                          items: floorsNameList
-                                              .map(buildMenueItems)
-                                              .toList(),
-                                          onChanged: (v) {
-                                            setState(() {
-                                              dropDownFloorValue = v!;
-                                            });
-                                          },
-                                        ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 8, bottom: 20),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 4,
+                                      child: Text(
+                                        translateText["projectType"]![language],
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: maincolor,
+                                            fontSize: 20),
                                       ),
-                                    )),
+                                    ),
+                                    Container(
+                                      width: 20,
+                                    ),
+                                    Expanded(
+                                      flex: 3,
+                                      child: Container(
+                                        height: 55,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: maincolor, width: 1.5),
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                        child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 20, left: 20),
+                                            child: Center(
+                                              child:
+                                                  DropdownButtonHideUnderline(
+                                                child: DropdownButton<String>(
+                                                  alignment: Alignment.center,
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  value: dropDownValue,
+                                                  isExpanded: true,
+                                                  icon: Image.asset(
+                                                    "assets/arrow2.png",
+                                                    height: 13,
+                                                  ),
+                                                  items: items
+                                                      .map(buildMenueItems)
+                                                      .toList(),
+                                                  onChanged: (v) {
+                                                    setState(() {
+                                                      int index = floorsNameList
+                                                          .indexOf(
+                                                              dropDownFloorValue);
+                                                      int indextype =
+                                                          items.indexOf(
+                                                              dropDownValue);
+                                                      if (indextype == 0 &&
+                                                          index > 5) {
+                                                        dropDownFloorValue =
+                                                            floorsNameList[5];
+                                                      }
+                                                      setSecondServiceNatureIndex(
+                                                          (types.indexOf(v!)));
+                                                      dropDownValue = v;
+                                                      getPrice();
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                            )),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
-                            )
-                          ],
-                        ),
-                        Container(
-                          height: 25,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Column(
+                              Row(
                                 children: [
-                                  Align(
-                                    alignment: language == 0
-                                        ? Alignment.centerRight
-                                        : Alignment.centerLeft,
+                                  Expanded(
+                                    flex: 4,
                                     child: Text(
-                                      translateText["Uploadcharts"]![language],
+                                      translateText["numberoffloors"]![
+                                          language],
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           color: maincolor,
                                           fontSize: 20),
                                     ),
                                   ),
-                                  Text(
-                                    translateText["text4"]![language],
-                                    textAlign: TextAlign.start,
-                                    style: const TextStyle(fontSize: 11),
+                                  Container(
+                                    width: 20,
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Container(
+                                      height: 55,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: maincolor, width: 1.5),
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                      child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 20, left: 20),
+                                          child: Center(
+                                            child: DropdownButtonHideUnderline(
+                                              child: DropdownButton<String>(
+                                                alignment: Alignment.center,
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                value: dropDownFloorValue,
+                                                isExpanded: true,
+                                                icon: Image.asset(
+                                                  "assets/arrow2.png",
+                                                  height: 13,
+                                                ),
+                                                items: floorsNameList
+                                                    .map(buildMenueItems)
+                                                    .toList(),
+                                                onChanged: (v) {
+                                                  setSecondServiceFloorNumber(
+                                                      ((floorsNameList
+                                                          .indexOf(v!))));
+                                                  setState(() {
+                                                    dropDownFloorValue = v!;
+                                                    getPrice();
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          )),
+                                    ),
                                   )
                                 ],
                               ),
-                            ),
-                            Container(
-                              width: 15,
-                            ),
-                            InkWell(
-                              onTap: () async {
-                                FilePickerResult? result = await FilePicker
-                                    .platform
-                                    .pickFiles(allowMultiple: true);
-                                if (result != null) {
-                                  filesPath = [];
-                                  for (var element in result.files) {
-                                    if (element.path != null) {
-                                      filesPath.add(element.path!);
-                                    }
-                                  }
-
-                                  setState(() {});
-                                } else {
-                                  // User canceled the picker
-                                }
-                              },
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width * .35,
-                                child: Container(
-                                  height: 75,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey),
-                                      color: const Color(0xffF2F2F2),
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: filesPath.isEmpty
-                                        ? Row(children: [
-                                            const Expanded(
-                                              child: FittedBox(
-                                                child: Column(
-                                                  children: [
-                                                    Text(
-                                                        "Select a file or drag and drop here"),
-                                                    Text(
-                                                        "PDF, file size no more than 10MB"),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              width: 10,
-                                            ),
-                                            Image.asset(
-                                                "assets/feather_upload-cloud.png")
-                                          ])
-                                        : Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: FittedBox(
-                                              child: Text(
-                                                  "تم تحميل ${filesPath.length} من الملفات"),
-                                            ),
-                                          ),
-                                  ),
-                                ),
+                              Container(
+                                height: 25,
                               ),
-                            )
-                          ],
-                        ),
-                        Container(
-                          height: 25,
-                        ),
-                        Text(
-                          language == 0
-                              ? "سيتم دفع $currentPrice درهم رسوم"
-                              : "A fee of $currentPrice dirhams will be paid.",
-                          style: normalTextStyle(),
-                        ),
-                        Container(
-                          height: 17,
-                        ),
-                        InkWell(
-                            onTap: () async {
-                              if (dropDownFloorValue == floorsNameList[10]) {
-                                contactAlert(context);
-                              } else {
-                                String requestType =
-                                    (types.indexOf(dropDownValue) + 1)
-                                        .toString();
-                                Map<String, String> headers2 = {
-                                  'Accept': 'application/json',
-                                  'Content-Type': 'application/json',
-                                  'Authorization': 'Bearer ${currentUser.token}'
-                                };
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Align(
+                                          alignment: language == 0
+                                              ? Alignment.centerRight
+                                              : Alignment.centerLeft,
+                                          child: Text(
+                                            translateText["Uploadcharts"]![
+                                                language],
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                color: maincolor,
+                                                fontSize: 20),
+                                          ),
+                                        ),
+                                        Text(
+                                          translateText["text4"]![language],
+                                          textAlign: TextAlign.start,
+                                          style: const TextStyle(fontSize: 11),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 15,
+                                  ),
+                                  InkWell(
+                                    onTap: () async {
+                                      FilePickerResult? result =
+                                          await FilePicker.platform
+                                              .pickFiles(allowMultiple: true);
+                                      if (result != null) {
+                                        // filesPath = [];
+                                        for (var element in result.files) {
+                                          if (element.path != null) {
+                                            filesPath.add(element.path!);
+                                          }
+                                        }
+                                        setSecondServiceFiles(filesPath);
+                                        setState(() {});
+                                      } else {
+                                        // User canceled the picker
+                                      }
+                                    },
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          .35,
+                                      child: Container(
+                                        height: 75,
+                                        decoration: BoxDecoration(
+                                            border:
+                                                Border.all(color: Colors.grey),
+                                            color: const Color(0xffF2F2F2),
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: filesPath.isEmpty
+                                              ? Row(children: [
+                                                  const Expanded(
+                                                    child: FittedBox(
+                                                      child: Column(
+                                                        children: [
+                                                          Text(
+                                                            "إضغط هنا لرفع الملفات",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 8,
+                                                  ),
+                                                  Image.asset(
+                                                    "assets/feather_upload-cloud.png",
+                                                    height: 35,
+                                                  )
+                                                ])
+                                              : Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: FittedBox(
+                                                    child: Text(
+                                                        "تم تحميل ${filesPath.length} من الملفات"),
+                                                  ),
+                                                ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Container(
+                                height: 25,
+                              ),
+                              Text(
+                                language == 0
+                                    ? "سيتم دفع $price درهم رسوم"
+                                    : "A fee of $price dirhams will be paid.",
+                                style: normalTextStyle(),
+                              ),
+                              Container(
+                                height: 17,
+                              ),
+                              InkWell(
+                                  onTap: () async {
+                                    if (isSign) {
+                                      if (dropDownFloorValue ==
+                                          floorsNameList[10]) {
+                                        contactAlert(context);
+                                      } else {
+                                        String requestType =
+                                            (types.indexOf(dropDownValue) + 1)
+                                                .toString();
+                                        Map<String, String> headers2 = {
+                                          'Accept': 'application/json',
+                                          'Content-Type': 'application/json',
+                                          'Authorization':
+                                              'Bearer ${currentUser.token}'
+                                        };
 
-                                if (filesPath.isEmpty) {
-                                  snackbar(context,
-                                      "يجب رفع المخططات الخاصة بمشروعك");
-                                } else {
-                                  /*  var response = await MyFatoorah.startPayment(
+                                        if (filesPath.isEmpty) {
+                                          snackbar(context,
+                                              "يجب رفع المخططات الخاصة بمشروعك");
+                                        } else {
+                                          /*  var response = await MyFatoorah.startPayment(
                                   afterPaymentBehaviour: AfterPaymentBehaviour
                                       .AfterCallbackExecution,
                                   context: context,
@@ -433,81 +495,117 @@ class _SecondServiceState extends State<SecondService> {
                                         "rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL",
                                   ),
                                 );*/
-                                  // if (response.isSuccess) {
-                                  if (true) {
-                                    try {
-                                      var request = http.MultipartRequest(
-                                          'POST',
-                                          Uri.parse(
-                                              '$baseUrl/review-construction-plans'));
-                                      request.fields.addAll({
-                                        'requestType': requestType,
-                                        'floorsCount': ((floorsNameList.indexOf(
-                                                    dropDownFloorValue)) +
-                                                1)
-                                            .toString(),
-                                        //  'markAsPendingOfferSelection': 'true'
-                                      });
-                                      filesPath.forEach((element) async {
-                                        request.files.add(
-                                            await http.MultipartFile.fromPath(
-                                                'files[]', element));
-                                      });
+                                          // if (response.isSuccess) {
+                                          if (true) {
+                                            try {
+                                              var request = http.MultipartRequest(
+                                                  'POST',
+                                                  Uri.parse(
+                                                      '$baseUrl/review-construction-plans'));
+                                              request.fields.addAll({
+                                                'requestType': requestType,
+                                                'floorsCount':
+                                                    ((floorsNameList.indexOf(
+                                                                dropDownFloorValue)) +
+                                                            1)
+                                                        .toString(),
+                                                //  'markAsPendingOfferSelection': 'true'
+                                              });
+                                              filesPath
+                                                  .forEach((element) async {
+                                                request.files.add(await http
+                                                        .MultipartFile
+                                                    .fromPath(
+                                                        'files[]', element));
+                                              });
 
-                                      request.headers.addAll(headers2);
+                                              request.headers.addAll(headers2);
 
-                                      http.StreamedResponse response =
-                                          await request.send();
+                                              http.StreamedResponse response =
+                                                  await request.send();
 
-                                      if (response.statusCode == 201) {
-                                        Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SuccessPage(
-                                                        text1: translateText[
-                                                                "sucess_pay"]![
-                                                            language],
-                                                        text2:
-                                                            translateText[
+                                              if (response.statusCode == 201) {
+                                                cleanSecondServiceCache();
+                                                Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) => SuccessPage(
+                                                            text1: translateText[
+                                                                    "sucess_pay"]![
+                                                                language],
+                                                            text2: translateText[
                                                                     "text7"]![
                                                                 language])),
-                                            (route) => false);
-                                      } else {
-                                        Navigator.pushAndRemoveUntil(
+                                                    (route) => false);
+                                              } else {
+                                                Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const NoInternet()),
+                                                    (route) => false);
+                                              }
+                                            } catch (_) {
+                                              Navigator.pushAndRemoveUntil(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const NoInternet()),
+                                                  (route) => false);
+                                            }
+                                          }
+                                        }
+                                      }
+                                    } else {
+                                      noteAlert(
+                                          context, "يجب التسجيل قبل طلب الخدمة",
+                                          () {
+                                        Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const NoInternet()),
-                                            (route) => false);
-                                      }
-                                    } catch (_) {
-                                      Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const NoInternet()),
-                                          (route) => false);
+                                                    const Login()));
+                                      });
                                     }
-                                  }
-                                }
-                              }
-                            },
-                            child: longButton(
-                                translateText["Askـservice"]![language])),
-                        Container(
-                          height: 45,
-                        )
-                      ],
-                    ),
-                  ),
+                                  },
+                                  child: longButton(
+                                      translateText["Askـservice"]![language])),
+                              Container(
+                                height: 45,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
-        ),
+              ),
       ),
     );
+  }
+
+  getPrice() {
+    int p = 2200;
+
+    try {
+      int index = floorsNameList.indexOf(dropDownFloorValue);
+      int indextype = items.indexOf(dropDownValue);
+      if (indextype == 0 && index > 5) {
+        dropDownFloorValue = floorsNameList[5];
+      }
+
+      if (index == -1 || index == 10) {
+        p = 00;
+      } else {
+        p = indextype == 0
+            ? floors[index].villasPrice
+            : floors[index].buildingPrice;
+      }
+    } catch (_) {}
+    setState(() {
+      price = p;
+    });
   }
 
   DropdownMenuItem<String> buildMenueItems(String item) => DropdownMenuItem(

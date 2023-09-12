@@ -75,7 +75,7 @@ class _OffersState extends State<Offers> {
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             child: Column(
               children: [
                 Row(
@@ -117,159 +117,193 @@ class _OffersState extends State<Offers> {
                                 padding: EdgeInsets.zero,
                                 children: [
                                   for (int i = 0; i < offers.length; i++)
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  .04),
-                                          child: Text(
-                                            translateText["text11"]![language] +
-                                                offers[i].companyId.toString(),
-                                            style: TextStyle(
-                                                fontSize: 17, color: maincolor),
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  .25,
-                                              height: 53,
-                                              child: Center(
-                                                  child: Text(
-                                                translateText["Offer_Price"]![
-                                                    language],
-                                                style: TextStyle(
-                                                    color: maincolor,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              )),
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  .25,
-                                              height: 53,
-                                              child: Center(
-                                                  child: Text(
-                                                translateText["period"]![
-                                                    language],
-                                                style: TextStyle(
-                                                    color: maincolor,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              )),
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  .25,
-                                              height: 53,
-                                            ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 15, top: 10),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                                spreadRadius: 2,
+                                                blurRadius: 8,
+                                                color: Colors.grey)
                                           ],
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
-                                        Row(
+                                        child: Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  .25,
-                                              height: 53,
-                                              decoration: BoxDecoration(
-                                                  color: pinkcolor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                              child: Center(
-                                                  child: Text(
-                                                offers[i].price.toString(),
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              )),
-                                            ),
-                                            Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  .25,
-                                              height: 53,
-                                              decoration: BoxDecoration(
-                                                  color: pinkcolor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                              child: Center(
-                                                  child: Text(
-                                                language == 0
-                                                    ? '${offers[i].duration} يوم'
-                                                    : '${offers[i].duration} day',
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              )),
-                                            ),
-                                            InkWell(
-                                              onTap: () {
-                                                bottomSheet(
-                                                    context,
-                                                    widget.serviceId,
-                                                    offers[i].requestId,
-                                                    offers[i].responseId);
-                                              },
-                                              child: Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    .25,
-                                                height: 53,
-                                                decoration: BoxDecoration(
-                                                    color: maincolor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                child: Center(
-                                                    child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: FittedBox(
-                                                    child: Text(
-                                                      translateText[
-                                                              "Choose_offer"]![
-                                                          language],
-                                                      style: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ),
-                                                )),
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          .04),
+                                              child: Text(
+                                                translateText["text11"]![
+                                                        language] +
+                                                    offers[i]
+                                                        .companyId
+                                                        .toString(),
+                                                style: TextStyle(
+                                                    fontSize: 17,
+                                                    color: maincolor),
                                               ),
                                             ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      .25,
+                                                  height: 53,
+                                                  child: Center(
+                                                      child: Text(
+                                                    translateText[
+                                                            "Offer_Price"]![
+                                                        language],
+                                                    style: TextStyle(
+                                                        color: maincolor,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  )),
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      .25,
+                                                  height: 53,
+                                                  child: Center(
+                                                      child: Text(
+                                                    translateText["period"]![
+                                                        language],
+                                                    style: TextStyle(
+                                                        color: maincolor,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  )),
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      .25,
+                                                  height: 53,
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      .25,
+                                                  height: 53,
+                                                  decoration: BoxDecoration(
+                                                      color: pinkcolor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10)),
+                                                  child: Center(
+                                                      child: Text(
+                                                    "${offers[i].price} ${translateText["AED"]![language]}",
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  )),
+                                                ),
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      .25,
+                                                  height: 53,
+                                                  decoration: BoxDecoration(
+                                                      color: pinkcolor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10)),
+                                                  child: Center(
+                                                      child: Text(
+                                                    language == 0
+                                                        ? '${offers[i].duration} يوم'
+                                                        : '${offers[i].duration} day',
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  )),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    bottomSheet(
+                                                        context,
+                                                        widget.serviceId,
+                                                        offers[i].requestId,
+                                                        offers[i].responseId);
+                                                  },
+                                                  child: Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            .27,
+                                                    height: 53,
+                                                    decoration: BoxDecoration(
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                              spreadRadius: 2,
+                                                              blurRadius: 8,
+                                                              color:
+                                                                  Colors.grey)
+                                                        ],
+                                                        color: greencolor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10)),
+                                                    child: Center(
+                                                        child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: FittedBox(
+                                                        child: Text(
+                                                          translateText[
+                                                                  "Choose_offer"]![
+                                                              language],
+                                                          style: const TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ),
+                                                    )),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Container(
+                                              height: 20,
+                                            )
                                           ],
                                         ),
-                                        Container(
-                                          height: 20,
-                                        )
-                                      ],
+                                      ),
                                     )
                                 ],
                               )),
