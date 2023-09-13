@@ -173,28 +173,62 @@ class _FirstServiceState extends State<FirstService> {
                               ),
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 50, horizontal: 20),
-                              child: InkWell(
-                                onTap: () => Navigator.pop(context),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const SizedBox(
+                                height: 40,
+                                width: 120,
+                              ),
+                              /*   Padding(
+                                padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  height: 43,
-                                  width: 43,
+                                  height: 40,
+                                  width: 120,
                                   decoration: BoxDecoration(
-                                      color: const Color(0xffAA277B),
-                                      borderRadius: BorderRadius.circular(100)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5),
-                                    child: Image.asset(
-                                      "assets/arrowback.gif",
+                                      color: pinkcolor,
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            offset: Offset(1, 4),
+                                            spreadRadius: 0,
+                                            blurRadius: 5,
+                                            color: Colors.black45)
+                                      ],
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Center(
+                                    child: Text(
+                                      translateText["save"]![language],
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
+                           */
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 50, horizontal: 20),
+                                child: InkWell(
+                                  onTap: () => Navigator.pop(context),
+                                  child: Container(
+                                    height: 43,
+                                    width: 43,
+                                    decoration: BoxDecoration(
+                                        color: const Color(0xffAA277B),
+                                        borderRadius:
+                                            BorderRadius.circular(100)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: Image.asset(
+                                        "assets/arrowback.gif",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           )
                         ],
                       ),
@@ -516,13 +550,23 @@ class _FirstServiceState extends State<FirstService> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: filesPath.isEmpty
                                               ? Row(children: [
-                                                  Expanded(
+                                                  Image.asset(
+                                                    "assets/add-post.png",
+                                                    height: 27,
+                                                  ),
+                                                  Container(
+                                                    width: 5,
+                                                  ),
+                                                  const Expanded(
                                                     child: FittedBox(
                                                       child: Column(
                                                         children: [
                                                           Text(
                                                             "إضغط هنا لرفع الملفات",
                                                             style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
                                                                 color: Colors
                                                                     .black),
                                                           ),
@@ -530,20 +574,20 @@ class _FirstServiceState extends State<FirstService> {
                                                       ),
                                                     ),
                                                   ),
-                                                  Container(
-                                                    width: 8,
-                                                  ),
-                                                  Image.asset(
-                                                    "assets/feather_upload-cloud.png",
-                                                    height: 35,
-                                                  )
                                                 ])
                                               : Padding(
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: FittedBox(
                                                     child: Text(
-                                                        "تم تحميل ${filesPath.length} من الملفات"),
+                                                      "تم تحميل ${filesPath.length} من الملفات \nإضغط لتحميل المزيد",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.black),
+                                                    ),
                                                   ),
                                                 ),
                                         ),
@@ -622,7 +666,7 @@ class _FirstServiceState extends State<FirstService> {
                                                                 dropDownFloorValue)) +
                                                             1)
                                                         .toString(),
-                                                //  'markAsPendingOfferSelection': 'true'
+                                                //    'markAsPendingOfferSelection':'true'
                                               });
 
                                               filesPath

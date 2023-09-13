@@ -154,7 +154,8 @@ class _MainListOffersState extends State<MainListOffers> {
               padding: const EdgeInsets.only(top: 15),
               child: Container(
                 decoration: BoxDecoration(
-                    color: const Color(0xffAA277B),
+                    border: Border.all(color: maincolor),
+                    color: maincolor2.withOpacity(.4),
                     borderRadius: BorderRadius.circular(15)),
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -166,30 +167,40 @@ class _MainListOffersState extends State<MainListOffers> {
                       Text(
                         title,
                         style: const TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 22),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 8),
+                        padding: EdgeInsets.only(top: 8),
                         child: Align(
                             alignment: language == 0
                                 ? Alignment.bottomLeft
                                 : Alignment.bottomRight,
                             child: FittedBox(
                               child: Container(
+                                height: 40,
                                 decoration: BoxDecoration(
-                                    color: maincolor,
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 4),
+                                    color: maincolor2,
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          offset: Offset(1, 4),
+                                          spreadRadius: 0,
+                                          blurRadius: 5,
+                                          color: Colors.black45)
+                                    ],
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4, horizontal: 8),
+                                  child: Center(
                                     child: Text(
                                       translateText["Click_to_see_offers"]![
                                           language],
-                                      style: const TextStyle(
-                                          color: Colors.white,
+                                      style: TextStyle(
+                                          color:
+                                              //statusId != 2 ? const Color(0xffFC9AD9)
+                                              Colors.black,
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -212,7 +223,7 @@ class _MainListOffersState extends State<MainListOffers> {
                   height: 40,
                   width: 120,
                   decoration: BoxDecoration(
-                      color: const Color(0xffAA277B),
+                      color: maincolor2,
                       boxShadow: const [
                         BoxShadow(
                             offset: Offset(1, 4),
@@ -225,7 +236,7 @@ class _MainListOffersState extends State<MainListOffers> {
                     child: Text(
                       translateText["orderNum"]![language] + id.toString(),
                       style: const TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 15),
                     ),

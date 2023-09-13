@@ -7,6 +7,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 Color maincolor = const Color(0xff4C2963);
 Color pinkcolor = const Color(0xffAA277B);
 Color greencolor = const Color(0xff21E900);
+Color maincolor2 = Colors.purple.shade100;
+Color secondColor = Colors.purple.shade300;
 
 bool isSign = false;
 //0=arabic , 1=english

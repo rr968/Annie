@@ -234,7 +234,7 @@ contactAlert(context) {
       builder: (context) {
         String num = contactPhone;
         String text = """
- +5 لأن عدد الطوابق 
+  لأن عدد الطوابق أكثر من 5 
 يرجى التواصل معنا على الرقم
 $num
 """;

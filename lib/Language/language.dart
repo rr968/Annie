@@ -11,6 +11,7 @@ Map<String, List> translateText = {
   "signIn": ["تسجيل الدخول", "Sign In"],
   "noAccount": [" ليس لديك حساب؟ ", "Don't have an account?"],
   "createAccount": ["إنشاء حساب", "Create Account"],
+  "save": ["حفظ", "Save"],
   "errorField": [
     "يجب ملئ جميع الحقول بالشكل الصحيح",
     "All fields must be filled in correctly"
@@ -76,6 +77,8 @@ Map<String, List> translateText = {
   "suggestions": [" للشكاوي والاقتراحات", "Complaints and Suggestions"],
   "sign_out": ["تسجيل الخروج", "Sign Out"],
   "Services": ["خدماتي", "Services"],
+  "Services2": ["متابعة خدماتي", "Follow my services"],
+  "explain_text": ["إختر العرض ثم اضغط موافق", "Choose the Offer and click OK"],
   "Notifications": ["الإشعارات", "Notices"],
   "Profile": ["البرفايل", "Profile"],
   "Home": ["الرئيسية", "Home"],

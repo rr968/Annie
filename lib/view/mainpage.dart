@@ -35,10 +35,10 @@ class _MainPageState extends State<MainPage> {
   /// widget list
   final List<Widget> bottomBarPages = [
     const HomePage(),
-    const Profile(),
-    const Notifications(),
+    //const Notifications(),
     const MainListOffers(),
     const Requests(),
+    const Profile(),
     const Settings(),
   ];
   @override
@@ -81,7 +81,7 @@ class _MainPageState extends State<MainPage> {
                   notchColor: Colors.pink,
                   itemLabelStyle: const TextStyle(
                       color: Colors.white,
-                      fontSize: 11.5,
+                      fontSize: 13,
                       fontWeight: FontWeight.bold),
                   durationInMilliSeconds: 500,
                   removeMargins: true,
@@ -96,28 +96,6 @@ class _MainPageState extends State<MainPage> {
                         color: Colors.white,
                       ),
                       itemLabel: translateText["Home"]![language],
-                    ),
-                    BottomBarItem(
-                      inActiveItem: Image.asset(
-                        'assets/profile.png',
-                        color: Colors.white,
-                      ),
-                      activeItem: Image.asset(
-                        'assets/profile.png',
-                        color: Colors.white,
-                      ),
-                      itemLabel: translateText["Profile"]![language],
-                    ),
-                    BottomBarItem(
-                      inActiveItem: Image.asset(
-                        'assets/notification.png',
-                        color: Colors.white,
-                      ),
-                      activeItem: Image.asset(
-                        'assets/notification.png',
-                        color: Colors.white,
-                      ),
-                      itemLabel: translateText["Notifications"]![language],
                     ),
                     BottomBarItem(
                       inActiveItem: Image.asset(
@@ -140,6 +118,17 @@ class _MainPageState extends State<MainPage> {
                         color: Colors.white,
                       ),
                       itemLabel: translateText["Services"]![language],
+                    ),
+                    BottomBarItem(
+                      inActiveItem: Image.asset(
+                        'assets/profile.png',
+                        color: Colors.white,
+                      ),
+                      activeItem: Image.asset(
+                        'assets/profile.png',
+                        color: Colors.white,
+                      ),
+                      itemLabel: translateText["Profile"]![language],
                     ),
                     BottomBarItem(
                       inActiveItem: Image.asset(

@@ -56,22 +56,49 @@ class _HomePageState extends State<HomePage> {
                                 padding:
                                     const EdgeInsets.only(right: 8, left: 8),
                                 child: InkWell(
-                                  onTap: () {
-                                    setlanguage(language == 0 ? 1 : 0);
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Splash()),
-                                        (route) => false);
-                                  },
-                                  child: Image.asset(
-                                    language == 1
-                                        ? "assets/ar.png"
-                                        : "assets/en.png",
-                                    height: 33,
-                                  ),
-                                ),
+                                    onTap: () {
+                                      setlanguage(language == 0 ? 1 : 0);
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Splash()),
+                                          (route) => false);
+                                    },
+                                    child: Container(
+                                      height: 40,
+                                      width: 70,
+                                      decoration: BoxDecoration(
+                                          color: language == 1
+                                              ? pinkcolor
+                                              : maincolor,
+                                          borderRadius:
+                                              BorderRadius.circular(25)),
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            left: language == 1 ? 27 : 3,
+                                            right: language == 1 ? 3 : 27,
+                                            top: 5,
+                                            bottom: 5),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(80)),
+                                          child: FittedBox(
+                                              child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              language == 1
+                                                  ? "عربي"
+                                                  : "English",
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          )),
+                                        ),
+                                      ),
+                                    )),
                               ),
                               Container(
                                 height: 65,

@@ -408,13 +408,23 @@ class _SecondServiceState extends State<SecondService> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: filesPath.isEmpty
                                               ? Row(children: [
-                                                  const Expanded(
+                                                  Image.asset(
+                                                    "assets/add-post.png",
+                                                    height: 27,
+                                                  ),
+                                                  Container(
+                                                    width: 5,
+                                                  ),
+                                                  Expanded(
                                                     child: FittedBox(
                                                       child: Column(
                                                         children: [
                                                           Text(
                                                             "إضغط هنا لرفع الملفات",
                                                             style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
                                                                 color: Colors
                                                                     .black),
                                                           ),
@@ -422,20 +432,20 @@ class _SecondServiceState extends State<SecondService> {
                                                       ),
                                                     ),
                                                   ),
-                                                  Container(
-                                                    width: 8,
-                                                  ),
-                                                  Image.asset(
-                                                    "assets/feather_upload-cloud.png",
-                                                    height: 35,
-                                                  )
                                                 ])
                                               : Padding(
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: FittedBox(
                                                     child: Text(
-                                                        "تم تحميل ${filesPath.length} من الملفات"),
+                                                      "تم تحميل ${filesPath.length} من الملفات \nإضغط لتحميل المزيد",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.black),
+                                                    ),
                                                   ),
                                                 ),
                                         ),

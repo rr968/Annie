@@ -2,13 +2,14 @@
 
 import 'dart:convert';
 
+import 'package:build/controller/bottom_sheet.dart';
+import 'package:build/controller/button.dart';
 import 'package:build/controller/constant.dart';
 import 'package:build/controller/erroralert.dart';
 import 'package:build/main.dart';
 import 'package:build/model/offer.dart';
 import 'package:build/view/FirstSevice/first_service.dart';
 import 'package:build/Language/language.dart';
-import 'package:build/controller/bottom_sheet.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
@@ -24,6 +25,7 @@ class Offers extends StatefulWidget {
 class _OffersState extends State<Offers> {
   bool isLoading = true;
   List<Offer> offers = [];
+  int currentChoosse = -1;
 
   @override
   void initState() {
@@ -74,55 +76,80 @@ class _OffersState extends State<Offers> {
         maintainBottomViewPadding: true,
         child: Directionality(
           textDirection: TextDirection.rtl,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                child: Column(
                   children: [
-                    Text(
-                      translateText["appropriate"]![language],
-                      style: textStyle2(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          translateText["appropriate"]![language],
+                          style: textStyle2(),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(
+                            Icons.arrow_back_ios_new,
+                            size: 35,
+                          ),
+                        )
+                      ],
                     ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(
-                        Icons.arrow_back_ios_new,
-                        size: 35,
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        translateText["explain_text"]![language],
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: maincolor,
+                            fontSize: 18),
                       ),
-                    )
+                    ),
                   ],
                 ),
-                Container(
-                  height: 20,
-                ),
-                isLoading
-                    ? Center(
-                        child: CircularProgressIndicator(
-                          color: maincolor,
-                        ),
-                      )
-                    : Expanded(
-                        child: Column(
-                          children: [
-                            Directionality(
-                              textDirection: language == 0
-                                  ? TextDirection.rtl
-                                  : TextDirection.ltr,
-                              child: Expanded(
-                                  child: ListView(
-                                padding: EdgeInsets.zero,
-                                children: [
-                                  for (int i = 0; i < offers.length; i++)
-                                    Padding(
+              ),
+              isLoading
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        color: maincolor,
+                      ),
+                    )
+                  : Expanded(
+                      child: Column(
+                        children: [
+                          Directionality(
+                            textDirection: language == 0
+                                ? TextDirection.rtl
+                                : TextDirection.ltr,
+                            child: Expanded(
+                                child: ListView(
+                              padding: EdgeInsets.zero,
+                              children: [
+                                for (int i = 0; i < offers.length; i++)
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        currentChoosse = i;
+                                      });
+                                    },
+                                    child: Padding(
                                       padding: const EdgeInsets.only(
-                                          bottom: 15, top: 10),
+                                          bottom: 15,
+                                          top: 10,
+                                          right: 10,
+                                          left: 10),
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          color: Colors.white,
+                                          color: currentChoosse == i
+                                              ? const Color.fromARGB(
+                                                  255, 136, 233, 139)
+                                              : Colors.white,
                                           boxShadow: [
                                             BoxShadow(
                                                 spreadRadius: 2,
@@ -138,6 +165,33 @@ class _OffersState extends State<Offers> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                height: 25,
+                                                width: 25,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30),
+                                                    border: Border.all()),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                        color:
+                                                            currentChoosse == i
+                                                                ? Colors.green
+                                                                : Colors.white),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                             Padding(
                                               padding: EdgeInsets.symmetric(
                                                   horizontal:
@@ -248,53 +302,41 @@ class _OffersState extends State<Offers> {
                                                             FontWeight.bold),
                                                   )),
                                                 ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    bottomSheet(
-                                                        context,
-                                                        widget.serviceId,
-                                                        offers[i].requestId,
-                                                        offers[i].responseId);
-                                                  },
-                                                  child: Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            .27,
-                                                    height: 53,
-                                                    decoration: BoxDecoration(
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                              spreadRadius: 2,
-                                                              blurRadius: 8,
-                                                              color:
-                                                                  Colors.grey)
-                                                        ],
-                                                        color: greencolor,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10)),
-                                                    child: Center(
-                                                        child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child: FittedBox(
-                                                        child: Text(
-                                                          translateText[
-                                                                  "Choose_offer"]![
-                                                              language],
-                                                          style: const TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      .27,
+                                                  height: 53,
+                                                  decoration: BoxDecoration(
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            spreadRadius: 2,
+                                                            blurRadius: 8,
+                                                            color: Colors.grey)
+                                                      ],
+                                                      color: greencolor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10)),
+                                                  child: Center(
+                                                      child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: FittedBox(
+                                                      child: Text(
+                                                        translateText[
+                                                                "Choose_offer"]![
+                                                            language],
+                                                        style: const TextStyle(
+                                                            color: Colors.black,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
                                                       ),
-                                                    )),
-                                                  ),
+                                                    ),
+                                                  )),
                                                 ),
                                               ],
                                             ),
@@ -304,35 +346,47 @@ class _OffersState extends State<Offers> {
                                           ],
                                         ),
                                       ),
-                                    )
-                                ],
-                              )),
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                  translateText["text9"]![language],
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Text(
-                                  translateText["text10"]![language],
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: pinkcolor,
-                                      fontSize: 16),
+                                    ),
+                                  ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      translateText["text9"]![language],
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Text(
+                                      translateText["text10"]![language],
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: pinkcolor,
+                                          fontSize: 16),
+                                    ),
+                                  ],
                                 ),
                               ],
-                            ),
-                            Container(
-                              height: 10,
-                            )
-                          ],
-                        ),
-                      )
-              ],
-            ),
+                            )),
+                          ),
+                          currentChoosse != -1
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 25),
+                                  child: InkWell(
+                                      onTap: () {
+                                        bottomSheet(
+                                            context,
+                                            widget.serviceId,
+                                            offers[currentChoosse].requestId,
+                                            offers[currentChoosse].responseId);
+                                      },
+                                      child: longButton("موافق")),
+                                )
+                              : Container()
+                        ],
+                      ),
+                    )
+            ],
           ),
         ),
       ),

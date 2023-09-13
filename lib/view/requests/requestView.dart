@@ -494,37 +494,53 @@ class _ReqestViewState extends State<ReqestView> {
                                               borderRadius:
                                                   BorderRadius.circular(15)),
                                           child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: requestInfo.files.isEmpty
-                                                ? Row(children: [
-                                                    const Expanded(
-                                                      child: FittedBox(
-                                                        child: Column(
-                                                          children: [
-                                                            Text(
-                                                                "Select a file or drag and drop here"),
-                                                            Text(
-                                                                "PDF, file size no more than 10MB"),
-                                                          ],
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: requestInfo.files.isEmpty
+                                                  ? Row(children: [
+                                                      Image.asset(
+                                                        "assets/add-post.png",
+                                                        height: 27,
+                                                      ),
+                                                      Container(
+                                                        width: 5,
+                                                      ),
+                                                      Expanded(
+                                                        child: FittedBox(
+                                                          child: Column(
+                                                            children: [
+                                                              Text(
+                                                                "إضغط هنا لرفع الملفات",
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .black),
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Container(
-                                                      width: 10,
-                                                    ),
-                                                    Image.asset(
-                                                        "assets/feather_upload-cloud.png")
-                                                  ])
-                                                : Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: FittedBox(
-                                                      child: Text(
-                                                          "تم تحميل $numOfFiles من الملفات"),
-                                                    ),
-                                                  ),
-                                          ),
+                                                    ])
+                                                  : Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: FittedBox(
+                                                        child: Text(
+                                                          "تم تحميل $numOfFiles من الملفات",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  Colors.black),
+                                                        ),
+                                                      ),
+                                                    )),
                                         ),
                                       ),
                                     )
