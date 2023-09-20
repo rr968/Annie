@@ -94,7 +94,7 @@ class _FirstServiceState extends State<FirstService> {
                               padding: const EdgeInsets.only(top: 150),
                               child: Container(
                                 height: 150,
-                                width: MediaQuery.of(context).size.width * .85,
+                                width: deviceWidth * .85,
                                 decoration: BoxDecoration(
                                   boxShadow: const [
                                     BoxShadow(
@@ -475,7 +475,7 @@ class _FirstServiceState extends State<FirstService> {
                                                           .indexOf(v!))));
 
                                                   setState(() {
-                                                    dropDownFloorValue = v!;
+                                                    dropDownFloorValue = v;
                                                   });
                                                 },
                                               ),
@@ -536,8 +536,7 @@ class _FirstServiceState extends State<FirstService> {
                                       }
                                     },
                                     child: SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          .35,
+                                      width: deviceWidth * .35,
                                       child: Container(
                                         height: 75,
                                         decoration: BoxDecoration(
@@ -666,7 +665,9 @@ class _FirstServiceState extends State<FirstService> {
                                                                 dropDownFloorValue)) +
                                                             1)
                                                         .toString(),
-                                                //    'markAsPendingOfferSelection':'true'
+
+                                                // 'markAsRejected': 'true'
+                                                //  'markAsPendingOfferSelection': 'true'
                                               });
 
                                               filesPath
@@ -808,4 +809,11 @@ textStyle2() {
 
 textStyle3() {
   return TextStyle(fontWeight: FontWeight.w600, color: maincolor, fontSize: 20);
+}
+
+textStyle4() {
+  return TextStyle(
+      fontWeight: FontWeight.bold,
+      color: maincolor,
+      fontSize: language == 0 ? 17 : 14);
 }

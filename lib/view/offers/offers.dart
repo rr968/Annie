@@ -4,14 +4,17 @@ import 'dart:convert';
 
 import 'package:build/controller/bottom_sheet.dart';
 import 'package:build/controller/button.dart';
+import 'package:build/controller/confirm_offer.dart';
 import 'package:build/controller/constant.dart';
 import 'package:build/controller/erroralert.dart';
+import 'package:build/controller/provider.dart';
 import 'package:build/main.dart';
 import 'package:build/model/offer.dart';
 import 'package:build/view/FirstSevice/first_service.dart';
 import 'package:build/Language/language.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Offers extends StatefulWidget {
   final int requestId;
@@ -26,6 +29,7 @@ class _OffersState extends State<Offers> {
   bool isLoading = true;
   List<Offer> offers = [];
   int currentChoosse = -1;
+  bool canChooseMoreOffers = true;
 
   @override
   void initState() {
@@ -46,14 +50,22 @@ class _OffersState extends State<Offers> {
 
       if (request.statusCode == 200) {
         List data = json.decode(request.body);
-
+        int countChoosenOffer = 0;
         for (var element in data) {
           offers.add(Offer(
               responseId: element["responseId"],
               requestId: element["requestId"],
               companyId: element["companyId"],
               price: element["price"],
+              companyName: element["companyName"],
               duration: element["duration"]));
+          if (element["companyName"] != null) {
+            countChoosenOffer = countChoosenOffer + 1;
+          }
+        }
+
+        if (countChoosenOffer >= 3) {
+          canChooseMoreOffers = false;
         }
         setState(() {
           isLoading = false;
@@ -150,7 +162,7 @@ class _OffersState extends State<Offers> {
                                               ? const Color.fromARGB(
                                                   255, 136, 233, 139)
                                               : Colors.white,
-                                          boxShadow: [
+                                          boxShadow: const [
                                             BoxShadow(
                                                 spreadRadius: 2,
                                                 blurRadius: 8,
@@ -207,6 +219,28 @@ class _OffersState extends State<Offers> {
                                                         .toString(),
                                                 style: TextStyle(
                                                     fontSize: 17,
+                                                    color: maincolor),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          .04),
+                                              child: Text(
+                                                offers[i].companyName != null
+                                                    ? translateText["Cname"]![
+                                                                language] +
+                                                            " " +
+                                                            offers[i]
+                                                                .companyName ??
+                                                        ""
+                                                    : "",
+                                                style: TextStyle(
+                                                    fontSize: 17,
+                                                    fontWeight: FontWeight.bold,
                                                     color: maincolor),
                                               ),
                                             ),
@@ -309,7 +343,7 @@ class _OffersState extends State<Offers> {
                                                       .27,
                                                   height: 53,
                                                   decoration: BoxDecoration(
-                                                      boxShadow: [
+                                                      boxShadow: const [
                                                         BoxShadow(
                                                             spreadRadius: 2,
                                                             blurRadius: 8,
@@ -374,11 +408,263 @@ class _OffersState extends State<Offers> {
                                       vertical: 10, horizontal: 25),
                                   child: InkWell(
                                       onTap: () {
-                                        bottomSheet(
-                                            context,
-                                            widget.serviceId,
-                                            offers[currentChoosse].requestId,
-                                            offers[currentChoosse].responseId);
+                                        if (offers[currentChoosse]
+                                                .companyName !=
+                                            null) {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: false,
+                                            builder: (BuildContext context) {
+                                              return WillPopScope(
+                                                onWillPop: () async {
+                                                  return false;
+                                                },
+                                                child: Directionality(
+                                                  textDirection: language == 0
+                                                      ? TextDirection.rtl
+                                                      : TextDirection.ltr,
+                                                  child: AlertDialog(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              16.0),
+                                                    ),
+                                                    content: Provider.of<
+                                                                    MyProvider>(
+                                                                context)
+                                                            .isLoadingConfirmOffer
+                                                        ? const SizedBox(
+                                                            height: 60,
+                                                            width: 60,
+                                                            child: FittedBox(
+                                                                child:
+                                                                    CircularProgressIndicator()),
+                                                          )
+                                                        : SizedBox(
+                                                            height: 180,
+                                                            width:
+                                                                double.infinity,
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Text(
+                                                                  "لقد قمت باختيار المقاول ${offers[currentChoosse].companyName} من قبل لكن لم تقم بالتأكيد بعد",
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color:
+                                                                          maincolor),
+                                                                ),
+                                                                Container(
+                                                                  height: 25,
+                                                                ),
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceAround,
+                                                                  children: [
+                                                                    InkWell(
+                                                                      onTap:
+                                                                          () async {
+                                                                        Provider.of<MyProvider>(context,
+                                                                                listen: false)
+                                                                            .setisLoadingConfirmOffer(true);
+                                                                        confirmOffer(
+                                                                            offers[currentChoosse].requestId,
+                                                                            offers[currentChoosse].responseId,
+                                                                            context);
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        height:
+                                                                            40,
+                                                                        // width: 90,
+                                                                        decoration: BoxDecoration(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(10),
+                                                                            color: maincolor),
+                                                                        child:
+                                                                            const Padding(
+                                                                          padding:
+                                                                              EdgeInsets.symmetric(horizontal: 8),
+                                                                          child: Center(
+                                                                              child: Text(
+                                                                            " تأكيد الان ",
+                                                                            style:
+                                                                                TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                                                          )),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        height:
+                                                                            40,
+                                                                        //   width: 90,
+                                                                        decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(10),
+                                                                            gradient: const LinearGradient(
+                                                                              begin: Alignment.topLeft,
+                                                                              end: Alignment.bottomRight,
+                                                                              colors: [
+                                                                                Color(0xffAA277B),
+                                                                                Color(0xff4C2963),
+                                                                              ],
+                                                                            ),
+                                                                            color: maincolor),
+                                                                        child:
+                                                                            const Padding(
+                                                                          padding:
+                                                                              EdgeInsets.symmetric(horizontal: 8),
+                                                                          child: Center(
+                                                                              child: Text(
+                                                                            "التأكيد لاحقا",
+                                                                            style:
+                                                                                TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                                                          )),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                const SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        } else if (canChooseMoreOffers) {
+                                          bottomSheet(
+                                              context,
+                                              widget.serviceId,
+                                              offers[currentChoosse].requestId,
+                                              offers[currentChoosse].responseId,
+                                              offers[currentChoosse]
+                                                  .companyId
+                                                  .toString(),
+                                              offers[currentChoosse]
+                                                  .duration
+                                                  .toString(),
+                                              offers[currentChoosse]
+                                                  .price
+                                                  .toString());
+                                        } else {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: false,
+                                            builder: (BuildContext context) {
+                                              return Directionality(
+                                                textDirection: language == 0
+                                                    ? TextDirection.rtl
+                                                    : TextDirection.ltr,
+                                                child: AlertDialog(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            16.0),
+                                                  ),
+                                                  content: SizedBox(
+                                                    height: 180,
+                                                    width: double.infinity,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Text(
+                                                          "نعتذر.. لا يمكنك الإفصاح عن أكثر من ٣ مقاولين يرجى إختيار إحدى المقاولين الذين إخترت الإفصاح عنهم",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: maincolor),
+                                                        ),
+                                                        Container(
+                                                          height: 25,
+                                                        ),
+                                                        InkWell(
+                                                          onTap: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Container(
+                                                            height: 40,
+                                                            //   width: 90,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10),
+                                                                    gradient:
+                                                                        const LinearGradient(
+                                                                      begin: Alignment
+                                                                          .topLeft,
+                                                                      end: Alignment
+                                                                          .bottomRight,
+                                                                      colors: [
+                                                                        Color(
+                                                                            0xffAA277B),
+                                                                        Color(
+                                                                            0xff4C2963),
+                                                                      ],
+                                                                    ),
+                                                                    color:
+                                                                        maincolor),
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          8),
+                                                              child: Center(
+                                                                  child: Text(
+                                                                translateText[
+                                                                        "OK"]![
+                                                                    language],
+                                                                style: const TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              )),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        }
                                       },
                                       child: longButton("موافق")),
                                 )

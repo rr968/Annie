@@ -6,6 +6,7 @@ class Request {
   final int status;
   final String statusMsg;
   final String statusMsgEn;
+  final int currentStep;
 
   Request(
       {required this.id,
@@ -14,5 +15,6 @@ class Request {
       required this.serviceNameEn,
       required this.status,
       required this.statusMsg,
-      required this.statusMsgEn});
+      required this.statusMsgEn,
+      required this.currentStep});
 }

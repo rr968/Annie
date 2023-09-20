@@ -66,8 +66,7 @@ class _ReqestViewState extends State<ReqestView> {
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 184),
                                 child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * .85,
+                                  width: deviceWidth * .85,
                                   decoration: BoxDecoration(
                                     boxShadow: const [
                                       BoxShadow(
@@ -482,9 +481,7 @@ class _ReqestViewState extends State<ReqestView> {
                                         }
                                       },
                                       child: SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                .35,
+                                        width: deviceWidth * .35,
                                         child: Container(
                                           height: 75,
                                           decoration: BoxDecoration(
@@ -505,7 +502,7 @@ class _ReqestViewState extends State<ReqestView> {
                                                       Container(
                                                         width: 5,
                                                       ),
-                                                      Expanded(
+                                                      const Expanded(
                                                         child: FittedBox(
                                                           child: Column(
                                                             children: [
@@ -532,12 +529,13 @@ class _ReqestViewState extends State<ReqestView> {
                                                           "تم تحميل $numOfFiles من الملفات",
                                                           textAlign:
                                                               TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Colors.black),
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Colors
+                                                                      .black),
                                                         ),
                                                       ),
                                                     )),

@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:build/controller/constant.dart';
 import 'package:build/controller/erroralert.dart';
+import 'package:build/controller/stepper.dart';
 import 'package:build/main.dart';
 import 'package:build/model/request.dart';
 import 'package:build/view/FirstSevice/first_service.dart';
@@ -52,6 +53,7 @@ class _RequestsState extends State<Requests> {
             status: element["status"],
             statusMsg: element["statusMsg"],
             statusMsgEn: element["statusMsgEn"],
+            currentStep: element["currentStep"],
           ));
         }
         setState(() {
@@ -121,7 +123,8 @@ class _RequestsState extends State<Requests> {
                                       language == 0
                                           ? requestList[i].statusMsg
                                           : requestList[i].statusMsgEn,
-                                      requestList[i].status),
+                                      requestList[i].status,
+                                      requestList[i].currentStep - 1),
                               ],
                             ),
                           ),
@@ -136,7 +139,8 @@ class _RequestsState extends State<Requests> {
     );
   }
 
-  Widget noteBox(String title, int id, String status, int statusId) {
+  Widget noteBox(
+      String title, int id, String status, int statusId, int finishedStep) {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -158,57 +162,105 @@ class _RequestsState extends State<Requests> {
                     color: maincolor2.withOpacity(.4),
                     borderRadius: BorderRadius.circular(15)),
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 20, right: 20, top: 30, bottom: 13),
+                  padding: const EdgeInsets.only(top: 30, bottom: 13),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        title,
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22),
-                      ),
                       Padding(
-                        padding: EdgeInsets.only(top: 8),
-                        child: Align(
-                            alignment: language == 0
-                                ? Alignment.bottomLeft
-                                : Alignment.bottomRight,
-                            child: FittedBox(
-                              child: Container(
-                                height: 40,
-                                decoration: BoxDecoration(
-                                    color:
-                                        statusId != 2 ? maincolor2 : Colors.red,
-                                    boxShadow: const [
-                                      BoxShadow(
-                                          offset: Offset(1, 4),
-                                          spreadRadius: 0,
-                                          blurRadius: 5,
-                                          color: Colors.black45)
-                                    ],
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 4, horizontal: 8),
-                                  child: Center(
-                                    child: Text(
-                                      status,
-                                      style: TextStyle(
-                                          color:
-                                              //statusId != 2 ? const Color(0xffFC9AD9)
-                                              Colors.black,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              title,
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Align(
+                                  alignment: language == 0
+                                      ? Alignment.bottomLeft
+                                      : Alignment.bottomRight,
+                                  child: FittedBox(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: statusId != 2
+                                              ? maincolor2
+                                              : const Color.fromARGB(
+                                                  255, 237, 86, 75),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                                offset: Offset(1, 4),
+                                                spreadRadius: 0,
+                                                blurRadius: 5,
+                                                color: Colors.black45)
+                                          ],
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 4, horizontal: 8),
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                translateText["status"]![
+                                                        language] +
+                                                    status,
+                                                style: const TextStyle(
+                                                    color:
+                                                        //statusId != 2 ? const Color(0xffFC9AD9)
+                                                        Colors.black,
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              statusId == 2
+                                                  ? Text(
+                                                      translateText[
+                                                              "pressToEdit"]![
+                                                          language],
+                                                      style: const TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline,
+                                                          color:
+                                                              //statusId != 2 ? const Color(0xffFC9AD9)
+                                                              Colors.black,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    )
+                                                  : Container(),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                            )),
-                      )
+                                  )),
+                            ),
+                            Container(
+                              height: 20,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 2,
+                        // width: 2,
+                        color: Colors.grey,
+                      ),
+                      Container(
+                        height: 20,
+                      ),
+                      stepper(finishedStep)
                     ],
                   ),
                 ),

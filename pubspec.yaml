@@ -29,6 +29,8 @@ dependencies:
   my_fatoorah: ^3.3.0
   firebase_core: ^2.15.1
   firebase_messaging: ^14.6.7
+  cupertino_stepper: ^0.2.1
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:

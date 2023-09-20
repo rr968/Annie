@@ -5,26 +5,43 @@ import 'package:build/view/offers/contract.dart';
 import 'package:flutter/material.dart';
 
 void bottomSheet(BuildContext context, int serviceid, int requestId,
-    int selectedResponseId) {
+    int selectedResponseId, String companyname, String period, String price) {
   showModalBottomSheet(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
     context: context,
+    isScrollControlled: true,
     builder: (BuildContext context) {
-      return SizedBox(
-        height: 900,
+      return Directionality(
+        textDirection: language == 0 ? TextDirection.rtl : TextDirection.ltr,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Expanded(
+              child: Container(),
+            ),
             Image.asset(
               "assets/image2.png",
               height: 180,
               width: 180,
             ),
+            Expanded(
+              child: Container(),
+            ),
             Padding(
               padding: const EdgeInsets.all(15),
-              child: Text(
-                translateText["text8"]![language],
-                textAlign: TextAlign.center,
+              child: Column(
+                children: [
+                  Text(
+                    language == 0
+                        ? "بما أنك اخترت عرض المقاول # $companyname بتكلفة $price درهم مدة التنفيذ $period شهر. "
+                        : "Since you chose to offer the contractor # $companyname at a cost of $price AED and an implementation period of $period months.",
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    translateText["text8"]![language],
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             ),
             InkWell(
@@ -48,6 +65,9 @@ void bottomSheet(BuildContext context, int serviceid, int requestId,
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: longButton(translateText["OK"]![language]),
               ),
+            ),
+            Expanded(
+              child: Container(),
             ),
           ],
         ),

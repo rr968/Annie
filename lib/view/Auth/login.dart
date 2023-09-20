@@ -303,6 +303,7 @@ class _LoginState extends State<Login> {
       });
       if (request.statusCode == 200) {
         Map<String, dynamic> data = json.decode(request.body);
+
         String token = data["token"];
         String name = data["user"]["name"];
         String email = data["user"]["email"];

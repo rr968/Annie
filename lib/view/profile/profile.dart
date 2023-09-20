@@ -39,6 +39,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     //to translate city if its store in different language
+    //print(currentUser.city);
     if (language == 0) {
       if (!citiesAr.contains(currentUser.city)) {
         _currentSelectedValue = citiesAr[citiesEn.indexOf(currentUser.city)];

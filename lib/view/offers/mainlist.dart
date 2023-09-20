@@ -45,14 +45,14 @@ class _MainListOffersState extends State<MainListOffers> {
 
         for (var element in data) {
           requestList.add(Request(
-            id: element["id"],
-            serviceId: element["serviceId"],
-            serviceName: element["serviceName"],
-            serviceNameEn: element["serviceNameEn"],
-            status: element["status"],
-            statusMsg: element["statusMsg"],
-            statusMsgEn: element["statusMsgEn"],
-          ));
+              id: element["id"],
+              serviceId: element["serviceId"],
+              serviceName: element["serviceName"],
+              serviceNameEn: element["serviceNameEn"],
+              status: element["status"],
+              statusMsg: element["statusMsg"],
+              statusMsgEn: element["statusMsgEn"],
+              currentStep: element["currentStep"]));
         }
         setState(() {
           isLoading = false;
@@ -75,10 +75,10 @@ class _MainListOffersState extends State<MainListOffers> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      maintainBottomViewPadding: true,
-      child: Scaffold(
-        body: Directionality(
+    return Scaffold(
+      body: SafeArea(
+        maintainBottomViewPadding: true,
+        child: Directionality(
           textDirection: language == 0 ? TextDirection.rtl : TextDirection.ltr,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -96,11 +96,11 @@ class _MainListOffersState extends State<MainListOffers> {
                         style: textStyle2(),
                       ),
                       /*   Icon(
-                        language == 0
-                            ? Icons.arrow_back_ios_new
-                            : Icons.arrow_forward_ios,
-                        size: 35,
-                      )*/
+                          language == 0
+                              ? Icons.arrow_back_ios_new
+                              : Icons.arrow_forward_ios,
+                          size: 35,
+                        )*/
                     ],
                   ),
                 ),
@@ -110,8 +110,8 @@ class _MainListOffersState extends State<MainListOffers> {
                       )
                     : requestList.isEmpty
                         ? const Text("لا يوجد عروض بعد")
-                        : SingleChildScrollView(
-                            child: Column(
+                        : Expanded(
+                            child: ListView(
                               children: [
                                 for (int i = 0; i < requestList.length; i++)
                                   noteBox(
@@ -126,7 +126,10 @@ class _MainListOffersState extends State<MainListOffers> {
                                   ),
                               ],
                             ),
-                          )
+                          ),
+                Container(
+                  height: 80,
+                )
               ],
             ),
           ),
@@ -158,57 +161,74 @@ class _MainListOffersState extends State<MainListOffers> {
                     color: maincolor2.withOpacity(.4),
                     borderRadius: BorderRadius.circular(15)),
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 20, right: 20, top: 30, bottom: 13),
+                  padding: const EdgeInsets.only(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        title,
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22),
-                      ),
                       Padding(
-                        padding: EdgeInsets.only(top: 8),
-                        child: Align(
-                            alignment: language == 0
-                                ? Alignment.bottomLeft
-                                : Alignment.bottomRight,
-                            child: FittedBox(
-                              child: Container(
-                                height: 40,
-                                decoration: BoxDecoration(
-                                    color: maincolor2,
-                                    boxShadow: const [
-                                      BoxShadow(
-                                          offset: Offset(1, 4),
-                                          spreadRadius: 0,
-                                          blurRadius: 5,
-                                          color: Colors.black45)
-                                    ],
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 4, horizontal: 8),
-                                  child: Center(
-                                    child: Text(
-                                      translateText["Click_to_see_offers"]![
-                                          language],
-                                      style: TextStyle(
-                                          color:
-                                              //statusId != 2 ? const Color(0xffFC9AD9)
-                                              Colors.black,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
+                        padding: const EdgeInsets.only(
+                            left: 20, right: 20, top: 30, bottom: 13),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              title,
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Align(
+                                  alignment: language == 0
+                                      ? Alignment.bottomLeft
+                                      : Alignment.bottomRight,
+                                  child: FittedBox(
+                                    child: Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                          color: maincolor2,
+                                          boxShadow: const [
+                                            BoxShadow(
+                                                offset: Offset(0, 3),
+                                                spreadRadius: 1,
+                                                blurRadius: 5,
+                                                color: Colors.black45)
+                                          ],
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 4, horizontal: 8),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              Image.asset("assets/press.png"),
+                                              Text(
+                                                translateText[
+                                                        "Click_to_see_offers"]![
+                                                    language],
+                                                style: const TextStyle(
+                                                    color:
+                                                        //statusId != 2 ? const Color(0xffFC9AD9)
+                                                        Colors.black,
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                            )),
-                      )
+                                  )),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

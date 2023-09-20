@@ -11,7 +11,10 @@ Map<String, List> translateText = {
   "signIn": ["تسجيل الدخول", "Sign In"],
   "noAccount": [" ليس لديك حساب؟ ", "Don't have an account?"],
   "createAccount": ["إنشاء حساب", "Create Account"],
+  "status": ["حالة الطلب : ", "status : "],
+  "pressToEdit": ["إضغط هنا لتعديل الملفات", "Press here to edit files"],
   "save": ["حفظ", "Save"],
+  "Cname": ["اسم المقاول : ", "Contractor's name :"],
   "errorField": [
     "يجب ملئ جميع الحقول بالشكل الصحيح",
     "All fields must be filled in correctly"
@@ -56,8 +59,22 @@ Map<String, List> translateText = {
     "This is done according to the standards approved by the municipality"
   ],
   "text8": [
-    " سيقابلك مطلب توقيع عقد وساطة عند التسجيل بالخدمة المطلوبة وهو عقد وساطة بيننا وبينكم وبين الطرف الثالث\n لا يمثل أية مسؤولية على عاتقكم فهو بمثابة إجراء روتيني لحفظ حقوق الأطراف وتوضيح العلاقة بين الأطراف فقط.",
-    "You will be required to sign a mediation contract when registering for the required service, which is a mediation contract between us, you, and the third party\nIt does not represent any responsibility on your part, as it is a routine procedure to preserve the rights of the parties and clarify the relationship between the parties only."
+    """
+يرجى الضغط على موافق أسفل الشاشة وسيظهر لك مطلب إعتماد عقد وساطة وهو عقد وساطة بيننا وبينكم وبين الطرف الثالث
+لايمثل أي مسؤولية على عاتقكم فهو بمثابة إجراء روتيني لحفظ حقوق الأطراف وتوضيح العلاقة بين الأطراف فقط
+
+بعد إعتمادك على العقد سيتم الإفصاح عن إسم المقاول وبياناته وفي حالة رغبتك بتغيير العرض يمكنك الرجوع لصفحة العروض وإختيار عرض آخر
+
+ملاحظة : يمكنك الإفصاح عن بيانات 3 مقاولين فقط كحد أقصى من قائمة الأسعار.
+""",
+    """
+Please click “OK” at the bottom of the screen and you will see a request to approve a mediation contract, which is a mediation contract between us, you, and the third party.
+It does not represent any responsibility for them because their rights have been confirmed and clarified between patients only
+
+After relying on the conference, it becomes clear about the contractor’s name and information, and if it is important to change the offer, you can return to the offers page and choose another offer.
+
+Note: You can disclose the data of only 3 contractors affected by the product list.
+"""
   ],
   "projectType": ["ادخل نوع المشروع", "Enter project type"],
   "numberoffloors": ["ادخل عدد الطوابق", "Enter the number of floors"],
@@ -90,6 +107,8 @@ Map<String, List> translateText = {
   "sucess_pay": ["تم الدفع بنجاح", "Payment completed successfully"],
   "sucess_edit": ["تم التعديل بنجاح", "Edit completed successfully"],
   "sucess_selected": ["تم اختيار العرض بنجاح", "Offer selected successfully"],
+  "sucess_confirm": ["تم تأكيد العرض بنجاح", "Offer confirmed successfully"],
+  "text17": ["سوف نتواصل معك قريبا", "We will contact you soon"],
   "text7": [
     "سيتم جلب عروض الأسعار من شركات\nالمقاولات ،خلال 10 ايام عمل",
     "Quotations will be obtained from contracting\ncompanies within 10 working days"
@@ -180,5 +199,21 @@ Field of the work:
 3. The second party is obligated to completely discharge the first party from any future responsibilities due to the contracting contract or any default on the part of the project contractor in the event of any future disputes between the owner and the contractor or consultant.
 4. The two parties agreed that the relationship of the first party between the owner and the contractor is to be a mediation relationship only that ends upon signing the contracting contract without assuming any legal responsibility arising from the project works or arising from the contracting contract.
 The second party is obligated not to pursue the first party with any future claims of all kinds in the event of the contractor's default or any dispute between them"""
+  ],
+  "step1": [
+    "تعبئة البيانات ورفع المخططات",
+    "Filling data and uploading charts"
+  ],
+  "step2": ["دفع الرسوم", "Payment of fees"],
+  "step3": ["عروض الاسعار", "Quotations"],
+  "step4": [" اختيار العرض المناسب", "Choose the appropriate offer"],
+  "step5": [
+    "توقيع عقد حفظ حقوق تطبيق ابني",
+    "Signing a contract to rights to Abni app"
+  ],
+  "step6": ["الافصاح عن اسم المقاول", "Disclosure of the contractor's name"],
+  "step7": [
+    "التنسيق بين العميل والمقاول",
+    "Coordination between client and contractor"
   ],
 };

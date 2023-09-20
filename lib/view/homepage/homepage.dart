@@ -168,8 +168,8 @@ class _HomePageState extends State<HomePage> {
 
   box(String text1, String text2, String img, Function()? ontap) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: 10, horizontal: MediaQuery.of(context).size.width * .11),
+      padding:
+          EdgeInsets.symmetric(vertical: 10, horizontal: deviceWidth * .11),
       child: InkWell(
         onTap: ontap,
         child: Stack(

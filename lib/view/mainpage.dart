@@ -15,8 +15,6 @@ import 'package:build/view/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'notification/notification.dart';
-
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -30,7 +28,7 @@ class _MainPageState extends State<MainPage> {
   /// Controller to handle bottom nav bar and also handles initial page
   final _controller = NotchBottomBarController(index: 0);
 
-  int maxCount = 6;
+  int maxCount = 5;
 
   /// widget list
   final List<Widget> bottomBarPages = [
