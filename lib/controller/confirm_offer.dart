@@ -26,7 +26,6 @@ confirmOffer(int requestId, int selectedResponseId, context) async {
     request.headers.addAll(headers2);
 
     http.StreamedResponse response = await request.send();
-
     if (response.statusCode == 200) {
       Provider.of<MyProvider>(context, listen: false)
           .setisLoadingConfirmOffer(false);

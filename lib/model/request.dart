@@ -7,14 +7,19 @@ class Request {
   final String statusMsg;
   final String statusMsgEn;
   final int currentStep;
+  final String? selectedCompany;
+  final String? selectedOfferPrice;
 
-  Request(
-      {required this.id,
-      required this.serviceId,
-      required this.serviceName,
-      required this.serviceNameEn,
-      required this.status,
-      required this.statusMsg,
-      required this.statusMsgEn,
-      required this.currentStep});
+  Request({
+    required this.id,
+    required this.serviceId,
+    required this.serviceName,
+    required this.serviceNameEn,
+    required this.status,
+    required this.statusMsg,
+    required this.statusMsgEn,
+    required this.currentStep,
+    required this.selectedCompany,
+    required this.selectedOfferPrice,
+  });
 }

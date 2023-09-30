@@ -35,8 +35,14 @@ erroralert(context, text) {
               ],
             ),
             content: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Center(child: Text(text)),
+                Center(
+                    child: Text(
+                  text,
+                  textAlign: TextAlign.center,
+                )),
                 const SizedBox(
                   height: 20,
                 ),
@@ -234,9 +240,10 @@ contactAlert(context) {
       builder: (context) {
         String num = contactPhone;
         String text = """
-  لأن عدد الطوابق أكثر من 5 
+  لأن عدد الطوابق يزيد عن 5 
 يرجى التواصل معنا على الرقم
 $num
+لاحتساب السعر
 """;
         return FittedBox(
           child: AlertDialog(

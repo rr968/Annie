@@ -16,7 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+  final int pageIndex;
+  const MainPage({super.key, required this.pageIndex});
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -26,7 +27,7 @@ class _MainPageState extends State<MainPage> {
   int currentIndex = 0;
 
   /// Controller to handle bottom nav bar and also handles initial page
-  final _controller = NotchBottomBarController(index: 0);
+  var _controller;
 
   int maxCount = 5;
 
@@ -41,6 +42,8 @@ class _MainPageState extends State<MainPage> {
   ];
   @override
   void initState() {
+    _controller = NotchBottomBarController(index: widget.pageIndex);
+    currentIndex = widget.pageIndex;
     setNotificationToken();
     super.initState();
   }

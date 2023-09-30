@@ -188,17 +188,12 @@ class _SignUpState extends State<SignUp> {
                               return InputDecorator(
                                 decoration: InputDecoration(
                                   label: SizedBox(
-                                    width: 85,
+                                    width: 60,
                                     child: Row(
                                       children: [
                                         Text(
                                           translateText["country"]![language],
                                           style: const TextStyle(fontSize: 19),
-                                        ),
-                                        const Text(
-                                          "*",
-                                          style: TextStyle(
-                                              color: Colors.red, fontSize: 20),
                                         ),
                                       ],
                                     ),
@@ -465,6 +460,23 @@ class _SignUpState extends State<SignUp> {
                               )
                             ],
                           ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            translateText["contactWh"]![language],
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: maincolor,
+                                fontSize: 15),
+                          ),
+                          Text(
+                            contactPhone,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: maincolor,
+                                fontSize: 15),
+                          ),
                           Container(
                             height: 70,
                           )
@@ -523,7 +535,8 @@ class _SignUpState extends State<SignUp> {
         setIsSignIn(true).then((v) {
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const MainPage()),
+              MaterialPageRoute(
+                  builder: (context) => const MainPage(pageIndex: 0)),
               (route) => false);
         });
       } else {

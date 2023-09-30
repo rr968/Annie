@@ -16,7 +16,8 @@ import '../main.dart';
 import 'package:http/http.dart' as http;
 
 class Splash extends StatefulWidget {
-  const Splash({super.key});
+  final int mainPageIndex;
+  const Splash({super.key, this.mainPageIndex = 0});
 
   @override
   State<Splash> createState() => _SplashState();
@@ -183,7 +184,9 @@ class _SplashState extends State<Splash> {
 
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => const MainPage()),
+            MaterialPageRoute(
+                builder: (context) =>
+                    MainPage(pageIndex: widget.mainPageIndex)),
             (route) => false);
       } else {
         Navigator.pushAndRemoveUntil(

@@ -45,14 +45,17 @@ class _MainListOffersState extends State<MainListOffers> {
 
         for (var element in data) {
           requestList.add(Request(
-              id: element["id"],
-              serviceId: element["serviceId"],
-              serviceName: element["serviceName"],
-              serviceNameEn: element["serviceNameEn"],
-              status: element["status"],
-              statusMsg: element["statusMsg"],
-              statusMsgEn: element["statusMsgEn"],
-              currentStep: element["currentStep"]));
+            id: element["id"],
+            serviceId: element["serviceId"],
+            serviceName: element["serviceName"],
+            serviceNameEn: element["serviceNameEn"],
+            status: element["status"],
+            statusMsg: element["statusMsg"],
+            statusMsgEn: element["statusMsgEn"],
+            currentStep: element["currentStep"],
+            selectedCompany: element["selectedCompany"],
+            selectedOfferPrice: element["selectedOfferPrice"],
+          ));
         }
         setState(() {
           isLoading = false;
@@ -60,14 +63,15 @@ class _MainListOffersState extends State<MainListOffers> {
       } else {
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => const MainPage()),
+            MaterialPageRoute(
+                builder: (context) => const MainPage(pageIndex: 0)),
             (route) => false);
         erroralert(context, "حدث خطأ يرجى إعادة المحاولة");
       }
     } catch (e) {
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const MainPage()),
+          MaterialPageRoute(builder: (context) => const MainPage(pageIndex: 0)),
           (route) => false);
       erroralert(context, "حدث خطأ يرجى إعادة المحاولة");
     }

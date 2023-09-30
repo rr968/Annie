@@ -8,6 +8,7 @@ import 'package:build/main.dart';
 import 'package:build/view/Auth/forgetpassword.dart';
 import 'package:build/view/Auth/signup.dart';
 import 'package:build/Language/language.dart';
+import 'package:build/view/FirstSevice/first_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -280,7 +281,24 @@ class _LoginState extends State<Login> {
                                 ),
                               )
                             ],
-                          )
+                          ),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          Text(
+                            translateText["contactWh"]![language],
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: maincolor,
+                                fontSize: 15),
+                          ),
+                          Text(
+                            contactPhone,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: maincolor,
+                                fontSize: 15),
+                          ),
                         ],
                       ),
                     ),
@@ -323,7 +341,8 @@ class _LoginState extends State<Login> {
         setIsSignIn(true).then((v) {
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const MainPage()),
+              MaterialPageRoute(
+                  builder: (context) => const MainPage(pageIndex: 0)),
               (route) => false);
         });
       } else {

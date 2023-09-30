@@ -26,7 +26,7 @@ Map<String, List> translateText = {
     "An error occurred, please check your internet connection"
   ],
   "name": ["  الاسم ", "  Name "],
-  "country": ["  البلد ", "  Country "],
+  "country": [" الإمارة ", "  Country "],
   "confirmPass": ["  تأكيد كلمة المرور  ", "  confirm password  "],
   "haveAccount": ["لديك حساب؟ ", "have an account? "],
   "checkInternet": [
@@ -58,19 +58,27 @@ Map<String, List> translateText = {
     "وهذا يتم على حسب المعايير المعتمدة من البلديه",
     "This is done according to the standards approved by the municipality"
   ],
-  "text8": [
+  "text81": [
     """
 يرجى الضغط على موافق أسفل الشاشة وسيظهر لك مطلب إعتماد عقد وساطة وهو عقد وساطة بيننا وبينكم وبين الطرف الثالث
-لايمثل أي مسؤولية على عاتقكم فهو بمثابة إجراء روتيني لحفظ حقوق الأطراف وتوضيح العلاقة بين الأطراف فقط
-
+""",
+    """
+Please click “OK” at the bottom of the screen and you will see a request to approve a mediation contract, which is a mediation contract between us, you, and the third party.
+"""
+  ],
+  "text82": [
+    """لايمثل أي مسؤولية على عاتقكم فهو بمثابة إجراء روتيني لحفظ حقوق الأطراف وتوضيح العلاقة بين الأطراف قثط
+    """,
+    """It does not represent any responsibility for them because their rights have been confirmed and clarified between patients only
+    """
+  ],
+  "text83": [
+    """
 بعد إعتمادك على العقد سيتم الإفصاح عن إسم المقاول وبياناته وفي حالة رغبتك بتغيير العرض يمكنك الرجوع لصفحة العروض وإختيار عرض آخر
 
 ملاحظة : يمكنك الإفصاح عن بيانات 3 مقاولين فقط كحد أقصى من قائمة الأسعار.
 """,
     """
-Please click “OK” at the bottom of the screen and you will see a request to approve a mediation contract, which is a mediation contract between us, you, and the third party.
-It does not represent any responsibility for them because their rights have been confirmed and clarified between patients only
-
 After relying on the conference, it becomes clear about the contractor’s name and information, and if it is important to change the offer, you can return to the offers page and choose another offer.
 
 Note: You can disclose the data of only 3 contractors affected by the product list.
@@ -120,7 +128,7 @@ Note: You can disclose the data of only 3 contractors affected by the product li
   "text10": ["سارع بالاختيار الآن", "Hurry up and choose now."],
   "text11": ["الشركة #", "Company #"],
   "text12": ["سيتم الاتصال بك قريبا", "you will be contacted shortly"],
-  "go_home": ["العودة إلى الصفحة الرئيسية", "Go to the home page"],
+  "go_home": ["الذهاب إلى خدماتي", "Go to my servicrs"],
   "Choose_offer": ["إضغط لإختيار العرض", "Click to choose offer"],
   "period": ["مده التنفيذ", "period"],
   "AED": ["درهم", "AED"],
@@ -180,11 +188,9 @@ I have read all terms and the entire contract and agree of the same."""
 4- إتفق الطرفان على أن علاقة الطرف الاول بين المالك والمقاول أن تكون علاقة وساطة فقط تنتهي عند توقيع عقد المقاولة دون تحمله أية مسؤولية قانونية تنشأ عن أعمال المشروع أو تنشأ عن عقد المقاولة .
 5- يلتزم الطرف الثاني بعدم ملاحقة الطرف الاول بأية دعاوى مستقبلية بشتى أنواعها حال تقصير المقاول أو لأي خلاف بينهما .
 · مــــدة العقـد :
-مدة العمل المحدد بهذا العقد تنتهي بعد تحصيل الرسوم من الطرف الثاني ( 500 درهم ) تسدد من خلال تطبيق أبني أو الموقع الالكتروني.
+مدة العمل المحدد بهذا العقد تنتهي بعد تحصيل الرسوم من الطرف الثاني تسدد من خلال تطبيق أبني أو الموقع الالكتروني.
 حرر من هذا العقـد نسختين وقعهما الطرفـان ، واحتفظ كل منهما بنسخته لضمـان التنفيـذ بموجبها وذلك حفاظـاً على حقوق الطرفين .
-·
-الطرف الثاني/
-ا الطرف الأول /""",
+""",
     """First Party:  ABNI application
 Second Party:  The Customer
 Project:  New building, building completion
@@ -211,9 +217,21 @@ The second party is obligated not to pursue the first party with any future clai
     "توقيع عقد حفظ حقوق تطبيق ابني",
     "Signing a contract to rights to Abni app"
   ],
-  "step6": ["الافصاح عن اسم المقاول", "Disclosure of the contractor's name"],
+  "step6": [
+    "الافصاح عن اسم المقاول وتأكيده",
+    "Disclosure of the contractor's name"
+  ],
   "step7": [
     "التنسيق بين العميل والمقاول",
     "Coordination between client and contractor"
+  ],
+  "step31": [
+    "تسليم مراجعة المخططات للعميل\nعن طريق الإيميل والواتساب\nلرقم الهاتف المسجل لدينا",
+    "Deliver files to the client"
+  ],
+  "contName": ["إسم المقاول : ", "Contractor's name : "],
+  "contactWh": [
+    "إذا واجهتك أي مشكلة\nتواصل معنا عبر الرقم ",
+    "If you encounter any problem\ncontact us via number"
   ],
 };

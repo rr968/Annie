@@ -38,7 +38,16 @@ void bottomSheet(BuildContext context, int serviceid, int requestId,
                     textAlign: TextAlign.center,
                   ),
                   Text(
-                    translateText["text8"]![language],
+                    translateText["text81"]![language],
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    translateText["text82"]![language],
+                    style: const TextStyle(color: Colors.red),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    translateText["text83"]![language],
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -51,8 +60,8 @@ void bottomSheet(BuildContext context, int serviceid, int requestId,
                     context,
                     MaterialPageRoute(
                         builder: (context) => Contract(
-                              title1: "عقد وساطة-مراجعة مخططات",
-                              title2: "Mediation Contract- Review of Drawings",
+                              title1: "عقد وساطة-إبحث عن مقاول",
+                              title2: "Mediation contract - find a contractor",
                               content: serviceid == 1
                                   ? translateText["contract1"]![language]
                                   : translateText["contract2"]![language],

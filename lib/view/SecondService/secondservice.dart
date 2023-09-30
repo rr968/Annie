@@ -30,6 +30,7 @@ class _SecondServiceState extends State<SecondService> {
   final items = types;
   String dropDownValue = types[0];
   List<String> filesPath = [];
+  List<String> filesname = [];
   String dropDownFloorValue = floors[0].name;
   bool isLoading = true;
   @override
@@ -46,11 +47,13 @@ class _SecondServiceState extends State<SecondService> {
         }
 
         getSecondServiceFiles().then((files) {
-          log(files.toString());
           filesPath = files;
-          getPrice();
-          setState(() {
-            isLoading = false;
+          getSecondServiceFilesName().then((files2) {
+            filesname = files2;
+            getPrice();
+            setState(() {
+              isLoading = false;
+            });
           });
         });
       });
@@ -381,13 +384,27 @@ class _SecondServiceState extends State<SecondService> {
                                           await FilePicker.platform
                                               .pickFiles(allowMultiple: true);
                                       if (result != null) {
-                                        // filesPath = [];
+                                        double totalSize = 0;
                                         for (var element in result.files) {
-                                          if (element.path != null) {
-                                            filesPath.add(element.path!);
-                                          }
+                                          totalSize = totalSize +
+                                              (element.size / (1024 * 1024));
                                         }
-                                        setSecondServiceFiles(filesPath);
+
+                                        if (totalSize <= 500) {
+                                          //filesPath = [];
+
+                                          for (var element in result.files) {
+                                            if (element.path != null) {
+                                              filesPath.add(element.path!);
+                                              filesname.add(element.name);
+                                            }
+                                          }
+                                          setFisrtServiceFiles(filesPath);
+                                          setFisrtServiceFilesName(filesname);
+                                        } else {
+                                          erroralert(context,
+                                              "الملفات التي قمت بإضافتها تتجاوز\nالحجم المسموح به وهو 500 ميجا بايت");
+                                        }
                                         setState(() {});
                                       } else {
                                         // User canceled the picker
@@ -396,7 +413,6 @@ class _SecondServiceState extends State<SecondService> {
                                     child: SizedBox(
                                       width: deviceWidth * .35,
                                       child: Container(
-                                        height: 75,
                                         decoration: BoxDecoration(
                                             border:
                                                 Border.all(color: Colors.grey),
@@ -425,7 +441,32 @@ class _SecondServiceState extends State<SecondService> {
                                                                     FontWeight
                                                                         .bold,
                                                                 color: Colors
-                                                                    .black),
+                                                                    .black,
+                                                                fontSize: 20),
+                                                          ),
+                                                          Text(
+                                                            "الصيغة المسموحة هي\n JPG PNG PDF",
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 20),
+                                                          ),
+                                                          Text(
+                                                            "الحجم الأعلى المسموح به\nهو ٥٠٠ ميجابايت",
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 20),
                                                           ),
                                                         ],
                                                       ),
@@ -434,16 +475,95 @@ class _SecondServiceState extends State<SecondService> {
                                                 ])
                                               : Padding(
                                                   padding:
-                                                      const EdgeInsets.all(8.0),
+                                                      const EdgeInsets.only(),
                                                   child: FittedBox(
-                                                    child: Text(
-                                                      "تم تحميل ${filesPath.length} من الملفات \nإضغط لتحميل المزيد",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.black),
+                                                    child: Column(
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () {
+                                                            filesPath = [];
+                                                            filesname = [];
+                                                            setState(() {});
+                                                            setFisrtServiceFiles(
+                                                                []);
+                                                            setFisrtServiceFilesName(
+                                                                []);
+                                                          },
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                                border: Border
+                                                                    .all()),
+                                                            child:
+                                                                const Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(4),
+                                                              child: Row(
+                                                                children: [
+                                                                  Icon(
+                                                                    Icons
+                                                                        .delete,
+                                                                    color: Colors
+                                                                        .red,
+                                                                    size: 30,
+                                                                  ),
+                                                                  Text(
+                                                                    "حذف الكل",
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          height: 10,
+                                                        ),
+                                                        Text(
+                                                          "تم تحميل ${filesPath.length} من الملفات",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Colors
+                                                                      .black),
+                                                        ),
+                                                        for (int i = 0;
+                                                            i <
+                                                                filesname
+                                                                    .length;
+                                                            i++)
+                                                          Text(
+                                                            filesname[i],
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                        const Text(
+                                                          "إضغط هنا لتحميل المزيد",
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .underline,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  Colors.black),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                 ),
@@ -457,9 +577,11 @@ class _SecondServiceState extends State<SecondService> {
                                 height: 25,
                               ),
                               Text(
-                                language == 0
-                                    ? "سيتم دفع $price درهم رسوم"
-                                    : "A fee of $price dirhams will be paid.",
+                                price == 0
+                                    ? ""
+                                    : language == 0
+                                        ? "سيتم دفع $price درهم رسوم"
+                                        : "A fee of $price dirhams will be paid.",
                                 style: normalTextStyle(),
                               ),
                               Container(
@@ -518,7 +640,8 @@ class _SecondServiceState extends State<SecondService> {
                                                                 dropDownFloorValue)) +
                                                             1)
                                                         .toString(),
-                                                //  'markAsPendingOfferSelection': 'true'
+                                                //   'markAsCompleted': 'true'
+                                                // 'markAsRejected': 'true',
                                               });
                                               filesPath
                                                   .forEach((element) async {

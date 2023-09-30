@@ -54,6 +54,8 @@ class _RequestsState extends State<Requests> {
             statusMsg: element["statusMsg"],
             statusMsgEn: element["statusMsgEn"],
             currentStep: element["currentStep"],
+            selectedCompany: element["selectedCompany"],
+            selectedOfferPrice: element["selectedOfferPrice"].toString(),
           ));
         }
         setState(() {
@@ -62,14 +64,15 @@ class _RequestsState extends State<Requests> {
       } else {
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => const MainPage()),
+            MaterialPageRoute(
+                builder: (context) => const MainPage(pageIndex: 0)),
             (route) => false);
         erroralert(context, "حدث خطأ يرجى إعادة المحاولة");
       }
     } catch (e) {
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const MainPage()),
+          MaterialPageRoute(builder: (context) => const MainPage(pageIndex: 0)),
           (route) => false);
       erroralert(context, "حدث خطأ يرجى إعادة المحاولة");
     }
@@ -83,7 +86,7 @@ class _RequestsState extends State<Requests> {
         body: Directionality(
           textDirection: language == 0 ? TextDirection.rtl : TextDirection.ltr,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
                 Padding(
@@ -124,7 +127,9 @@ class _RequestsState extends State<Requests> {
                                           ? requestList[i].statusMsg
                                           : requestList[i].statusMsgEn,
                                       requestList[i].status,
-                                      requestList[i].currentStep - 1),
+                                      requestList[i].currentStep - 1,
+                                      requestList[i].serviceId,
+                                      requestList[i].selectedCompany ?? ""),
                               ],
                             ),
                           ),
@@ -139,8 +144,8 @@ class _RequestsState extends State<Requests> {
     );
   }
 
-  Widget noteBox(
-      String title, int id, String status, int statusId, int finishedStep) {
+  Widget noteBox(String title, int id, String status, int statusId,
+      int finishedStep, int seviceId, String constName) {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -222,6 +227,20 @@ class _RequestsState extends State<Requests> {
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
+                                              statusId >= 5 &&
+                                                      constName.isNotEmpty
+                                                  ? Text(
+                                                      translateText[
+                                                                  "contName"]![
+                                                              language] +
+                                                          constName,
+                                                      style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    )
+                                                  : Container(),
                                               statusId == 2
                                                   ? Text(
                                                       translateText[
@@ -260,7 +279,9 @@ class _RequestsState extends State<Requests> {
                       Container(
                         height: 20,
                       ),
-                      stepper(finishedStep)
+                      seviceId == 1
+                          ? stepper(finishedStep)
+                          : stepper2(finishedStep)
                     ],
                   ),
                 ),

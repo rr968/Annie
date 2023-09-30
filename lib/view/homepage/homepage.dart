@@ -142,7 +142,11 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           SizedBox(
                               height: 240,
-                              child: Image.asset("assets/cur.gif")),
+                              width: MediaQuery.of(context).size.width,
+                              child: Image.asset(
+                                "assets/cur.gif",
+                                fit: BoxFit.fill,
+                              )),
                           box(services[0].name, services[0].description,
                               services[0].image, () {
                             Navigator.of(context)

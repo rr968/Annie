@@ -177,32 +177,68 @@ class _OffersState extends State<Offers> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                height: 25,
-                                                width: 25,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30),
-                                                    border: Border.all()),
-                                                child: Padding(
+                                            Row(
+                                              children: [
+                                                Padding(
                                                   padding:
-                                                      const EdgeInsets.all(4),
+                                                      const EdgeInsets.all(8.0),
                                                   child: Container(
+                                                    height: 25,
+                                                    width: 25,
                                                     decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
-                                                                .circular(20),
-                                                        color:
-                                                            currentChoosse == i
-                                                                ? Colors.green
-                                                                : Colors.white),
+                                                                .circular(30),
+                                                        border: Border.all()),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              4),
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20),
+                                                            color:
+                                                                currentChoosse == i
+                                                                    ? Colors
+                                                                        .green
+                                                                    : Colors
+                                                                        .white),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
+                                                Center(
+                                                    child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: FittedBox(
+                                                    child: Row(
+                                                      children: [
+                                                        Image.asset(
+                                                          "assets/press.png",
+                                                          height: 20,
+                                                          width: 20,
+                                                        ),
+                                                        Text(
+                                                          translateText[
+                                                                  "Choose_offer"]![
+                                                              language],
+                                                          style: const TextStyle(
+                                                              fontSize: 13,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )),
+                                              ],
                                             ),
                                             Padding(
                                               padding: EdgeInsets.symmetric(
@@ -336,42 +372,13 @@ class _OffersState extends State<Offers> {
                                                             FontWeight.bold),
                                                   )),
                                                 ),
-                                                Container(
+                                                SizedBox(
                                                   width: MediaQuery.of(context)
                                                           .size
                                                           .width *
-                                                      .27,
+                                                      .25,
                                                   height: 53,
-                                                  decoration: BoxDecoration(
-                                                      boxShadow: const [
-                                                        BoxShadow(
-                                                            spreadRadius: 2,
-                                                            blurRadius: 8,
-                                                            color: Colors.grey)
-                                                      ],
-                                                      color: greencolor,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10)),
-                                                  child: Center(
-                                                      child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: FittedBox(
-                                                      child: Text(
-                                                        translateText[
-                                                                "Choose_offer"]![
-                                                            language],
-                                                        style: const TextStyle(
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ),
-                                                  )),
-                                                ),
+                                                )
                                               ],
                                             ),
                                             Container(
@@ -478,6 +485,7 @@ class _OffersState extends State<Offers> {
                                                                         Provider.of<MyProvider>(context,
                                                                                 listen: false)
                                                                             .setisLoadingConfirmOffer(true);
+
                                                                         confirmOffer(
                                                                             offers[currentChoosse].requestId,
                                                                             offers[currentChoosse].responseId,
@@ -592,7 +600,7 @@ class _OffersState extends State<Offers> {
                                                               .center,
                                                       children: [
                                                         Text(
-                                                          "نعتذر.. لا يمكنك الإفصاح عن أكثر من ٣ مقاولين يرجى إختيار إحدى المقاولين الذين إخترت الإفصاح عنهم",
+                                                          "نعتذر.. لا يمكنك الإفصاح عن أكثر من ٣ مقاولين يرجى إختيار إحدى شركات المقاولين الذين إخترت الإفصاح عنهم",
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: TextStyle(
@@ -668,7 +676,11 @@ class _OffersState extends State<Offers> {
                                       },
                                       child: longButton("موافق")),
                                 )
-                              : Container()
+                              : Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 25),
+                                  child: greyLongButton("موافق"),
+                                )
                         ],
                       ),
                     )

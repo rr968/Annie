@@ -70,9 +70,19 @@ Future<void> setFisrtServiceFiles(List<String> data) async {
   pref.setStringList("FisrtServiceFiles", data);
 }
 
+Future<void> setFisrtServiceFilesName(List<String> data) async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  pref.setStringList("FisrtServiceFilesName", data);
+}
+
 Future<List<String>> getFisrtServiceFiles() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   return pref.getStringList("FisrtServiceFiles") ?? [];
+}
+
+Future<List<String>> getFisrtServiceFilesName() async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  return pref.getStringList("FisrtServiceFilesName") ?? [];
 }
 
 Future<void> setSecondServiceFiles(List<String> data) async {
@@ -80,9 +90,19 @@ Future<void> setSecondServiceFiles(List<String> data) async {
   pref.setStringList("SecondServiceFiles", data);
 }
 
+Future<void> setSecondServiceFilesName(List<String> data) async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  pref.setStringList("SecondServiceFilesName", data);
+}
+
 Future<List<String>> getSecondServiceFiles() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   return pref.getStringList("SecondServiceFiles") ?? [];
+}
+
+Future<List<String>> getSecondServiceFilesName() async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  return pref.getStringList("SecondServiceFilesName") ?? [];
 }
 
 ///////////////////
@@ -93,6 +113,7 @@ Future<void> cleanFisrtServiceCache() async {
   pref.remove("FisrtServiceNatureIndex");
   pref.remove("FisrtServiceFloorNumber");
   pref.remove("FisrtServiceFiles");
+  pref.remove("FisrtServiceFilesName");
 }
 
 Future<void> cleanSecondServiceCache() async {
@@ -101,4 +122,5 @@ Future<void> cleanSecondServiceCache() async {
   pref.remove("SecondServiceNatureIndex");
   pref.remove("SecondServiceFloorNumber");
   pref.remove("SecondServiceFiles");
+  pref.remove("SecondServiceFilesName");
 }

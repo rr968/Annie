@@ -12,7 +12,9 @@ import 'package:build/controller/success.dart';
 import 'package:build/view/Auth/login.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_fatoorah/my_fatoorah.dart';
 
 import '../../controller/snackbar.dart';
 import '../../Language/language.dart';
@@ -31,8 +33,10 @@ class _FirstServiceState extends State<FirstService> {
   int groupValue1 = 0;
   int groupValue2 = 0;
   List<String> filesPath = [];
+  List<String> filesname = [];
   int price = 500;
   bool isLoading = true;
+  TextEditingController numFloorController = TextEditingController();
   @override
   void initState() {
     getFisrtServiceBuildTypeIndex().then((buildtype) {
@@ -57,10 +61,12 @@ class _FirstServiceState extends State<FirstService> {
             }
 
             getFisrtServiceFiles().then((files) {
-              log(files.toString());
               filesPath = files;
-              setState(() {
-                isLoading = false;
+              getFisrtServiceFilesName().then((files2) {
+                filesname = files2;
+                setState(() {
+                  isLoading = false;
+                });
               });
             });
           });
@@ -443,44 +449,94 @@ class _FirstServiceState extends State<FirstService> {
                                   ),
                                   Expanded(
                                     flex: 3,
-                                    child: Container(
-                                      height: 55,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: maincolor, width: 1.5),
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 20, left: 20),
-                                          child: Center(
-                                            child: DropdownButtonHideUnderline(
-                                              child: DropdownButton<String>(
-                                                alignment: Alignment.center,
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                                value: dropDownFloorValue,
-                                                isExpanded: true,
-                                                icon: Image.asset(
-                                                  "assets/arrow2.png",
-                                                  height: 13,
-                                                ),
-                                                items: floorsNameList
-                                                    .map(buildMenueItems)
-                                                    .toList(),
-                                                onChanged: (v) {
-                                                  setFisrtServiceFloorNumber(
-                                                      ((floorsNameList
-                                                          .indexOf(v!))));
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          height: 55,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: maincolor, width: 1.5),
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(15)),
+                                          child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 20, left: 20),
+                                              child: Center(
+                                                child:
+                                                    DropdownButtonHideUnderline(
+                                                  child: DropdownButton<String>(
+                                                    alignment: Alignment.center,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                    value: dropDownFloorValue,
+                                                    isExpanded: true,
+                                                    icon: Image.asset(
+                                                      "assets/arrow2.png",
+                                                      height: 13,
+                                                    ),
+                                                    items: floorsNameList
+                                                        .map(buildMenueItems)
+                                                        .toList(),
+                                                    onChanged: (v) {
+                                                      setFisrtServiceFloorNumber(
+                                                          ((floorsNameList
+                                                              .indexOf(v!))));
 
-                                                  setState(() {
-                                                    dropDownFloorValue = v;
-                                                  });
-                                                },
-                                              ),
-                                            ),
-                                          )),
+                                                      setState(() {
+                                                        dropDownFloorValue = v;
+                                                        numFloorController
+                                                            .clear();
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                              )),
+                                        ),
+                                        Container(
+                                          height: 10,
+                                        ),
+                                        dropDownFloorValue == floorsNameList[10]
+                                            ? Container(
+                                                height: 55,
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: maincolor,
+                                                        width: 1.5),
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15)),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 0,
+                                                          top: 20,
+                                                          left: 5,
+                                                          right: 10),
+                                                  child: TextField(
+                                                    controller:
+                                                        numFloorController,
+                                                    keyboardType:
+                                                        TextInputType.datetime,
+                                                    inputFormatters: <TextInputFormatter>[
+                                                      FilteringTextInputFormatter
+                                                          .digitsOnly,
+                                                      LengthLimitingTextInputFormatter(
+                                                          3), // Restrict input to 3 characters
+                                                    ],
+                                                    decoration: InputDecoration(
+                                                        hintText: translateText[
+                                                                "numberoffloors"]![
+                                                            language],
+                                                        border:
+                                                            InputBorder.none),
+                                                  ),
+                                                ),
+                                              )
+                                            : Container()
+                                      ],
                                     ),
                                   )
                                 ],
@@ -522,14 +578,29 @@ class _FirstServiceState extends State<FirstService> {
                                       FilePickerResult? result =
                                           await FilePicker.platform
                                               .pickFiles(allowMultiple: true);
+
                                       if (result != null) {
-                                        //filesPath = [];
+                                        double totalSize = 0;
                                         for (var element in result.files) {
-                                          if (element.path != null) {
-                                            filesPath.add(element.path!);
-                                          }
+                                          totalSize = totalSize +
+                                              (element.size / (1024 * 1024));
                                         }
-                                        setFisrtServiceFiles(filesPath);
+
+                                        if (totalSize <= 500) {
+                                          //filesPath = [];
+
+                                          for (var element in result.files) {
+                                            if (element.path != null) {
+                                              filesPath.add(element.path!);
+                                              filesname.add(element.name);
+                                            }
+                                          }
+                                          setFisrtServiceFiles(filesPath);
+                                          setFisrtServiceFilesName(filesname);
+                                        } else {
+                                          erroralert(context,
+                                              "الملفات التي قمت بإضافتها تتجاوز\nالحجم المسموح به وهو 500 ميجا بايت");
+                                        }
                                         setState(() {});
                                       } else {
                                         // User canceled the picker
@@ -538,7 +609,6 @@ class _FirstServiceState extends State<FirstService> {
                                     child: SizedBox(
                                       width: deviceWidth * .35,
                                       child: Container(
-                                        height: 75,
                                         decoration: BoxDecoration(
                                             border:
                                                 Border.all(color: Colors.grey),
@@ -567,7 +637,32 @@ class _FirstServiceState extends State<FirstService> {
                                                                     FontWeight
                                                                         .bold,
                                                                 color: Colors
-                                                                    .black),
+                                                                    .black,
+                                                                fontSize: 20),
+                                                          ),
+                                                          Text(
+                                                            "الصيغة المسموحة هي\n JPG PNG PDF",
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 20),
+                                                          ),
+                                                          Text(
+                                                            "الحجم الأعلى المسموح به\nهو ٥٠٠ ميجابايت",
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 20),
                                                           ),
                                                         ],
                                                       ),
@@ -576,18 +671,107 @@ class _FirstServiceState extends State<FirstService> {
                                                 ])
                                               : Padding(
                                                   padding:
-                                                      const EdgeInsets.all(8.0),
+                                                      const EdgeInsets.only(),
                                                   child: FittedBox(
-                                                    child: Text(
-                                                      "تم تحميل ${filesPath.length} من الملفات \nإضغط لتحميل المزيد",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.black),
-                                                    ),
-                                                  ),
+                                                      child: Column(
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () {
+                                                          filesPath = [];
+                                                          filesname = [];
+                                                          setState(() {});
+                                                          setFisrtServiceFiles(
+                                                              []);
+                                                          setFisrtServiceFilesName(
+                                                              []);
+                                                        },
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                              border:
+                                                                  Border.all()),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(4),
+                                                            child: Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.delete,
+                                                                  color: Colors
+                                                                      .red,
+                                                                  size: 30,
+                                                                ),
+                                                                Text(
+                                                                  "حذف الكل",
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        height: 10,
+                                                      ),
+                                                      Text(
+                                                        "تم تحميل ${filesPath.length} من الملفات",
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                      for (int i = 0;
+                                                          i < filesname.length;
+                                                          i++)
+                                                        Text(
+                                                          filesname[i],
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  Colors.black),
+                                                        ),
+                                                      Text(
+                                                        "إضغط هنا لتحميل المزيد",
+                                                        style: TextStyle(
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .underline,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                      /*Text.rich(TextSpan(
+                                                          text: 'إضغط ',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          children: <TextSpan>[
+                                                            TextSpan(
+                                                              text:
+                                                                  "هنا لتحميل المزيد",
+                                                              style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .underline,
+                                                              ),
+                                                            ),
+                                                          ]))*/
+                                                    ],
+                                                  )),
                                                 ),
                                         ),
                                       ),
@@ -611,8 +795,12 @@ class _FirstServiceState extends State<FirstService> {
                                   onTap: () async {
                                     if (isSign) {
                                       if (dropDownFloorValue ==
-                                          floorsNameList[10]) {
-                                        contactAlert(context);
+                                              floorsNameList[10] &&
+                                          numFloorController.text
+                                              .trim()
+                                              .isEmpty) {
+                                        erroralert(context,
+                                            "يرجى إدخال عدد الطابق بالارقام بالمكان المخصص");
                                       } else {
                                         String cityId =
                                             (groupValue2 + 1).toString();
@@ -633,23 +821,25 @@ class _FirstServiceState extends State<FirstService> {
                                           snackbar(context,
                                               "يجب رفع المخططات الخاصة بمشروعك");
                                         } else {
-                                          /*   var response = await MyFatoorah.startPayment(
-                                  afterPaymentBehaviour: AfterPaymentBehaviour
-                                      .AfterCallbackExecution,
-                                  context: context,
-                                  request: MyfatoorahRequest.test(
-                                    currencyIso: Country.UAE,
-                                    successUrl:
-                                        'https://rosa.ae/payment/myfatoorah_api/success',
-                                    errorUrl:
-                                        'https://rosa.ae/payment/myfatoorah_api/failed',
-                                    invoiceAmount: 100,
-                                    language: ApiLanguage.English,
-                                    token: //fatoorahKey!,
-                                        "rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL",
-                                  ),
-                                );
-                                if (response.isSuccess) {*/
+                                          /* var response =
+                                              await MyFatoorah.startPayment(
+                                            afterPaymentBehaviour:
+                                                AfterPaymentBehaviour
+                                                    .AfterCallbackExecution,
+                                            context: context,
+                                            request: MyfatoorahRequest.test(
+                                              currencyIso: Country.UAE,
+                                              successUrl:
+                                                  'https://rosa.ae/payment/myfatoorah_api/success',
+                                              errorUrl:
+                                                  'https://rosa.ae/payment/myfatoorah_api/failed',
+                                              invoiceAmount: 100,
+                                              language: ApiLanguage.English,
+                                              token: //fatoorahKey!,
+                                                  "rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL",
+                                            ),
+                                          );
+                                          if (response.isSuccess) {*/
                                           if (true) {
                                             try {
                                               var request = http.MultipartRequest(
@@ -660,14 +850,17 @@ class _FirstServiceState extends State<FirstService> {
                                                 'cityId': cityId,
                                                 'requestNature': requestNature,
                                                 'requestType': requestType,
-                                                'floorsCount':
-                                                    ((floorsNameList.indexOf(
+                                                'floorsCount': dropDownFloorValue ==
+                                                        floorsNameList[10]
+                                                    ? "99${numFloorController.text}"
+                                                    : ((floorsNameList.indexOf(
                                                                 dropDownFloorValue)) +
                                                             1)
                                                         .toString(),
 
                                                 // 'markAsRejected': 'true'
-                                                //  'markAsPendingOfferSelection': 'true'
+                                                'markAsPendingOfferSelection':
+                                                    'true'
                                               });
 
                                               filesPath
@@ -697,6 +890,8 @@ class _FirstServiceState extends State<FirstService> {
                                                                 language])),
                                                     (route) => false);
                                               } else {
+                                                print(await response.stream
+                                                    .bytesToString());
                                                 Navigator.pushAndRemoveUntil(
                                                     context,
                                                     MaterialPageRoute(
@@ -705,6 +900,7 @@ class _FirstServiceState extends State<FirstService> {
                                                     (route) => false);
                                               }
                                             } catch (e) {
+                                              print(e);
                                               Navigator.pushAndRemoveUntil(
                                                   context,
                                                   MaterialPageRoute(

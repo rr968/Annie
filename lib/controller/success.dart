@@ -58,7 +58,10 @@ class _SuccessPageState extends State<SuccessPage> {
                 onTap: () {
                   Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => const Splash()),
+                      MaterialPageRoute(
+                          builder: (context) => const Splash(
+                                mainPageIndex: 2,
+                              )),
                       (route) => false);
                 },
                 child: Padding(

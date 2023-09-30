@@ -55,14 +55,15 @@ class _NotificationsState extends State<Notifications> {
       } else {
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => const MainPage()),
+            MaterialPageRoute(
+                builder: (context) => const MainPage(pageIndex: 0)),
             (route) => false);
         erroralert(context, "حدث خطأ يرجى إعادة المحاولة");
       }
     } catch (e) {
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const MainPage()),
+          MaterialPageRoute(builder: (context) => const MainPage(pageIndex: 0)),
           (route) => false);
       erroralert(context, "حدث خطأ يرجى إعادة المحاولة");
     }

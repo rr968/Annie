@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, file_names, avoid_function_literals_in_foreach_calls
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:build/controller/button.dart';
 import 'package:build/controller/constant.dart';
@@ -513,7 +514,37 @@ class _ReqestViewState extends State<ReqestView> {
                                                                         FontWeight
                                                                             .bold,
                                                                     color: Colors
-                                                                        .black),
+                                                                        .black,
+                                                                    fontSize:
+                                                                        20),
+                                                              ),
+                                                              Text(
+                                                                "الصيغة المسموحة هي\n JPG PNG PDF",
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontSize:
+                                                                        20),
+                                                              ),
+                                                              Text(
+                                                                "الحجم الأعلى المسموح به\nهو ٥٠٠ ميجابايت",
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontSize:
+                                                                        20),
                                                               ),
                                                             ],
                                                           ),
@@ -524,19 +555,43 @@ class _ReqestViewState extends State<ReqestView> {
                                                       padding:
                                                           const EdgeInsets.all(
                                                               8.0),
-                                                      child: FittedBox(
-                                                        child: Text(
-                                                          "تم تحميل $numOfFiles من الملفات",
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style:
-                                                              const TextStyle(
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          FittedBox(
+                                                            child: Text(
+                                                              "تم تحميل $numOfFiles من الملفات",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: const TextStyle(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
                                                                   color: Colors
                                                                       .black),
-                                                        ),
+                                                            ),
+                                                          ),
+                                                          requestInfo.editable
+                                                              ? Text(
+                                                                  "إضغط هنا لتحميل المزيد",
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .underline,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color: Colors
+                                                                          .black),
+                                                                )
+                                                              : Container(),
+                                                        ],
                                                       ),
                                                     )),
                                         ),
@@ -598,7 +653,7 @@ class _ReqestViewState extends State<ReqestView> {
 
       if (request.statusCode == 200) {
         Map element = json.decode(request.body);
-
+        log(element.toString());
         requestInfo = RequestInfo(
             requestId: element["requestId"],
             serviceId: element["serviceId"],
@@ -609,8 +664,13 @@ class _ReqestViewState extends State<ReqestView> {
             requestTypeEn: element["requestTypeEn"],
             requestNature: element["requestNature"],
             requestNatureEn: element["requestNatureEn"],
-            floorsCount: floorsNameList[
-                element["floorsCount"] - 1], //to be index not count
+            //if number start with 99 then its number else its index of floorsNameList like G+1 ,G+R ....
+            floorsCount: element["floorsCount"].toString()
+            /*  element["floorsCount"].toString().substring(0, 2) == "99"
+                    ? element["floorsCount"].toString().substring(2)
+                    : floorsNameList[
+                        element["floorsCount"] - 1]*/
+            , //to be index not count
             cityId: element["cityId"],
             rejectionReason: element["rejectionReason"],
             editable: element["editable"],
@@ -631,14 +691,15 @@ class _ReqestViewState extends State<ReqestView> {
       } else {
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => const MainPage()),
+            MaterialPageRoute(
+                builder: (context) => const MainPage(pageIndex: 0)),
             (route) => false);
         erroralert(context, "حدث خطأ يرجى إعادة المحاولة");
       }
     } catch (e) {
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const MainPage()),
+          MaterialPageRoute(builder: (context) => const MainPage(pageIndex: 0)),
           (route) => false);
       erroralert(context, "حدث خطأ يرجى إعادة المحاولة");
     }
