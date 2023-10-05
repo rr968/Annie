@@ -14,7 +14,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:my_fatoorah/my_fatoorah.dart';
 
 import '../../controller/snackbar.dart';
 import '../../Language/language.dart';
@@ -693,10 +692,10 @@ class _FirstServiceState extends State<FirstService> {
                                                                           10),
                                                               border:
                                                                   Border.all()),
-                                                          child: Padding(
+                                                          child: const Padding(
                                                             padding:
-                                                                const EdgeInsets
-                                                                    .all(4),
+                                                                EdgeInsets.all(
+                                                                    4),
                                                             child: Row(
                                                               children: [
                                                                 Icon(
@@ -735,14 +734,15 @@ class _FirstServiceState extends State<FirstService> {
                                                           i++)
                                                         Text(
                                                           filesname[i],
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Colors.black),
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Colors
+                                                                      .black),
                                                         ),
-                                                      Text(
+                                                      const Text(
                                                         "إضغط هنا لتحميل المزيد",
                                                         style: TextStyle(
                                                             decoration:
@@ -850,17 +850,22 @@ class _FirstServiceState extends State<FirstService> {
                                                 'cityId': cityId,
                                                 'requestNature': requestNature,
                                                 'requestType': requestType,
-                                                'floorsCount': dropDownFloorValue ==
-                                                        floorsNameList[10]
-                                                    ? "99${numFloorController.text}"
-                                                    : ((floorsNameList.indexOf(
+                                                'floorsCount':
+                                                    ((floorsNameList.indexOf(
                                                                 dropDownFloorValue)) +
                                                             1)
                                                         .toString(),
 
-                                                // 'markAsRejected': 'true'
-                                                'markAsPendingOfferSelection':
-                                                    'true'
+                                                "sentCustomFloors":
+                                                    dropDownFloorValue ==
+                                                            floorsNameList[10]
+                                                        ? "1"
+                                                        : "0",
+                                                "customFloors":
+                                                    numFloorController.text,
+
+                                                'markAsRejected': 'true'
+                                                // 'markAsPendingOfferSelection': 'true'
                                               });
 
                                               filesPath
@@ -890,8 +895,6 @@ class _FirstServiceState extends State<FirstService> {
                                                                 language])),
                                                     (route) => false);
                                               } else {
-                                                print(await response.stream
-                                                    .bytesToString());
                                                 Navigator.pushAndRemoveUntil(
                                                     context,
                                                     MaterialPageRoute(
@@ -900,7 +903,6 @@ class _FirstServiceState extends State<FirstService> {
                                                     (route) => false);
                                               }
                                             } catch (e) {
-                                              print(e);
                                               Navigator.pushAndRemoveUntil(
                                                   context,
                                                   MaterialPageRoute(

@@ -144,7 +144,7 @@ class _SplashState extends State<Splash> {
 
           floorsNameList.add(data11[i]["level"].toString());
         }
-        floorsNameList.add("G+5");
+        floorsNameList.add("اخرى");
 
         data2();
       } else {

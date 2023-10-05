@@ -56,6 +56,7 @@ class _RequestsState extends State<Requests> {
             currentStep: element["currentStep"],
             selectedCompany: element["selectedCompany"],
             selectedOfferPrice: element["selectedOfferPrice"].toString(),
+            remainingDays: element["remainingDays"].toString(),
           ));
         }
         setState(() {
@@ -126,6 +127,7 @@ class _RequestsState extends State<Requests> {
                                       language == 0
                                           ? requestList[i].statusMsg
                                           : requestList[i].statusMsgEn,
+                                      requestList[i].remainingDays ?? "",
                                       requestList[i].status,
                                       requestList[i].currentStep - 1,
                                       requestList[i].serviceId,
@@ -144,8 +146,8 @@ class _RequestsState extends State<Requests> {
     );
   }
 
-  Widget noteBox(String title, int id, String status, int statusId,
-      int finishedStep, int seviceId, String constName) {
+  Widget noteBox(String title, int id, String status, String remainingDays,
+      int statusId, int finishedStep, int seviceId, String constName) {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -241,6 +243,21 @@ class _RequestsState extends State<Requests> {
                                                               FontWeight.bold),
                                                     )
                                                   : Container(),
+                                              statusId == 4 &&
+                                                      remainingDays
+                                                          .isNotEmpty &&
+                                                      remainingDays != "null"
+                                                  ? Text(
+                                                      language == 0
+                                                          ? "باقي $remainingDays أيام"
+                                                          : "$remainingDays days remaining",
+                                                      style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    )
+                                                  : Container(),
                                               statusId == 2
                                                   ? Text(
                                                       translateText[
@@ -250,9 +267,7 @@ class _RequestsState extends State<Requests> {
                                                           decoration:
                                                               TextDecoration
                                                                   .underline,
-                                                          color:
-                                                              //statusId != 2 ? const Color(0xffFC9AD9)
-                                                              Colors.black,
+                                                          color: Colors.black,
                                                           fontSize: 15,
                                                           fontWeight:
                                                               FontWeight.bold),

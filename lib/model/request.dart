@@ -9,6 +9,7 @@ class Request {
   final int currentStep;
   final String? selectedCompany;
   final String? selectedOfferPrice;
+  final String? remainingDays;
 
   Request({
     required this.id,
@@ -21,5 +22,6 @@ class Request {
     required this.currentStep,
     required this.selectedCompany,
     required this.selectedOfferPrice,
+    this.remainingDays,
   });
 }

@@ -640,8 +640,6 @@ class _SecondServiceState extends State<SecondService> {
                                                                 dropDownFloorValue)) +
                                                             1)
                                                         .toString(),
-                                                //   'markAsCompleted': 'true'
-                                                // 'markAsRejected': 'true',
                                               });
                                               filesPath
                                                   .forEach((element) async {

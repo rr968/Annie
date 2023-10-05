@@ -224,7 +224,6 @@ Widget stepper(int finshedStep) {
 }
 
 Widget stepper2(int finshedStep) {
-  print(finshedStep);
   int complete = finshedStep == 8 ? 100 : 66;
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: language == 0 ? 20 : 13),
