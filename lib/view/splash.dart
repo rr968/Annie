@@ -42,13 +42,41 @@ class _SplashState extends State<Splash> {
   void initState() {
     setApiData();
     getIsSignIn();
-    getUserData();
+    getUserData().then((v) {
+      getnumberOfCurrentOffer();
+    });
     getPriceData();
     getcontactdata();
     getlanguage();
     requestNotificationPermissions();
 
     super.initState();
+  }
+
+  getnumberOfCurrentOffer() async {
+    var headers2 = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${currentUser.token}'
+    };
+    try {
+      var request = await http.get(
+          Uri.parse('$baseUrl/my-pending-offer-selection-requests'),
+          headers: headers2);
+
+      if (request.statusCode == 200) {
+        print("heeeere");
+        log(numberOfCurrentOffer.toString());
+        List data = json.decode(request.body);
+        setState(() {
+          numberOfCurrentOffer = data.length;
+        });
+        log(numberOfCurrentOffer.toString());
+      }
+    } catch (e) {
+      print("heeeere222");
+      print(e.toString());
+    }
   }
 
   getcontactdata() async {

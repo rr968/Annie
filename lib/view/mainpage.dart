@@ -44,6 +44,7 @@ class _MainPageState extends State<MainPage> {
   ];
   @override
   void initState() {
+    print(numberOfCurrentOffer);
     _controller = NotchBottomBarController(index: widget.pageIndex);
     currentIndex = widget.pageIndex;
     setNotificationToken();
@@ -101,10 +102,41 @@ class _MainPageState extends State<MainPage> {
                       itemLabel: translateText["Home"]![language],
                     ),
                     BottomBarItem(
-                      inActiveItem: Image.asset(
-                        'assets/offer.png',
-                        color: Colors.white,
-                      ),
+                      inActiveItem: numberOfCurrentOffer == 0
+                          ? Image.asset(
+                              'assets/offer.png',
+                              color: Colors.white,
+                            )
+                          : Stack(
+                              children: [
+                                Image.asset(
+                                  'assets/offer.png',
+                                  color: Colors.white,
+                                ),
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Container(
+                                    height: 17,
+                                    width: 17,
+                                    decoration: BoxDecoration(
+                                        color: pinkcolor,
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    child: Center(
+                                      child: FittedBox(
+                                        child: Text(
+                                          numberOfCurrentOffer.toString(),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 17),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                       activeItem: Image.asset(
                         'assets/offer.png',
                         color: Colors.white,

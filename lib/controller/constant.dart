@@ -19,3 +19,4 @@ late List<String> natures;
 late List<String> types;
 late List<Services> services;
 String? notificationToken;
+int numberOfCurrentOffer = 0;
