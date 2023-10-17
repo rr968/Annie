@@ -1,7 +1,7 @@
 Map<String, List> translateText = {
   "Delete_Account": ["حذف الحساب", "Delete Account"],
   "Edit_pass": ["تعديل \n كلمة المرور", "\nEdit Password"],
-  "Edit": ["تعديل", "Edit"],
+  "Edit": ["حفظ التعديل", "Save Edit"],
   "pass": [" كلمة المرور ", " Password "],
   "ِEmail": [" الايميل ", " ِEmail "],
   "mobileNum": ["  رقم الهاتف ", "  Mobile Number "],
@@ -120,6 +120,10 @@ Note: You can disclose the data of only 3 contractors affected by the product li
   "text7": [
     "سيتم جلب عروض الأسعار من شركات\nالمقاولات ،خلال 10 ايام عمل",
     "Quotations will be obtained from contracting\ncompanies within 10 working days"
+  ],
+  "text7S2": [
+    "ستتم مراجعه المخططات وارسال الدراسة لكم\nعن طريق الواتساب والايميل المسجل لدينا خلال  10 ايام عمل",
+    "The plans will be reviewed and the study will be sent to you via\nWhatsApp and the email registered with us within 10 working days"
   ],
   "text9": [
     "تعد الاسعار المذكوره صالحه لمدة 10 ايام من تاريخه ولا نتحمل مسؤولية تغير اسعار السوق خلال الفترة المذكورة",

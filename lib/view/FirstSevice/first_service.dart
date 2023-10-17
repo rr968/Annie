@@ -865,8 +865,7 @@ class _FirstServiceState extends State<FirstService> {
                                                     numFloorController.text,
 
                                                 //  'markAsRejected': 'true'
-                                                'markAsPendingOfferSelection':
-                                                    'true'
+                                                // 'markAsPendingOfferSelection': 'true'
                                               });
 
                                               filesPath

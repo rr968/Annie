@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:build/model/pricing.dart';
 import 'package:build/model/services.dart';
@@ -65,18 +64,14 @@ class _SplashState extends State<Splash> {
           headers: headers2);
 
       if (request.statusCode == 200) {
-        print("heeeere");
-        log(numberOfCurrentOffer.toString());
+        // log(numberOfCurrentOffer.toString());
         List data = json.decode(request.body);
         setState(() {
           numberOfCurrentOffer = data.length;
         });
-        log(numberOfCurrentOffer.toString());
+        //log(numberOfCurrentOffer.toString());
       }
-    } catch (e) {
-      print("heeeere222");
-      print(e.toString());
-    }
+    } catch (_) {}
   }
 
   getcontactdata() async {
@@ -136,14 +131,12 @@ class _SplashState extends State<Splash> {
 
         getPriceData();
       } else {
-        log("e.toString()");
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const NoInternet()),
             (route) => false);
       }
     } catch (e) {
-      log(e.toString());
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => const NoInternet()),

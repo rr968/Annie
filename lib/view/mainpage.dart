@@ -44,7 +44,6 @@ class _MainPageState extends State<MainPage> {
   ];
   @override
   void initState() {
-    print(numberOfCurrentOffer);
     _controller = NotchBottomBarController(index: widget.pageIndex);
     currentIndex = widget.pageIndex;
     setNotificationToken();
@@ -126,7 +125,7 @@ class _MainPageState extends State<MainPage> {
                                       child: FittedBox(
                                         child: Text(
                                           numberOfCurrentOffer.toString(),
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 17),

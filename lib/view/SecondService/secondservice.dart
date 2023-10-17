@@ -411,7 +411,7 @@ class _SecondServiceState extends State<SecondService> {
                                       }
                                     },
                                     child: SizedBox(
-                                      width: deviceWidth * .35,
+                                      width: deviceWidth * .4,
                                       child: Container(
                                         decoration: BoxDecoration(
                                             border:
@@ -420,7 +420,7 @@ class _SecondServiceState extends State<SecondService> {
                                             borderRadius:
                                                 BorderRadius.circular(15)),
                                         child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                          padding: const EdgeInsets.all(6),
                                           child: filesPath.isEmpty
                                               ? Row(children: [
                                                   Image.asset(
@@ -473,62 +473,72 @@ class _SecondServiceState extends State<SecondService> {
                                                     ),
                                                   ),
                                                 ])
-                                              : Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(),
-                                                  child: FittedBox(
-                                                    child: Column(
-                                                      children: [
-                                                        InkWell(
-                                                          onTap: () {
-                                                            filesPath = [];
-                                                            filesname = [];
-                                                            setState(() {});
-                                                            setFisrtServiceFiles(
-                                                                []);
-                                                            setFisrtServiceFilesName(
-                                                                []);
-                                                          },
-                                                          child: Container(
-                                                            decoration: BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                                border: Border
-                                                                    .all()),
-                                                            child:
-                                                                const Padding(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(4),
-                                                              child: Row(
-                                                                children: [
-                                                                  Icon(
-                                                                    Icons
-                                                                        .delete,
-                                                                    color: Colors
-                                                                        .red,
-                                                                    size: 30,
-                                                                  ),
-                                                                  Text(
-                                                                    "حذف الكل",
-                                                                    style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
-                                                                  )
-                                                                ],
-                                                              ),
+                                              : FittedBox(
+                                                  child: Column(
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () {
+                                                          filesPath = [];
+                                                          filesname = [];
+                                                          setState(() {});
+                                                          setFisrtServiceFiles(
+                                                              []);
+                                                          setFisrtServiceFilesName(
+                                                              []);
+                                                        },
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                              border:
+                                                                  Border.all()),
+                                                          child: const Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    4),
+                                                            child: Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.delete,
+                                                                  color: Colors
+                                                                      .red,
+                                                                  size: 30,
+                                                                ),
+                                                                Text(
+                                                                  "حذف الكل",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                )
+                                                              ],
                                                             ),
                                                           ),
                                                         ),
-                                                        Container(
-                                                          height: 10,
-                                                        ),
+                                                      ),
+                                                      Container(
+                                                        height: 10,
+                                                      ),
+                                                      Text(
+                                                        "تم تحميل ${filesPath.length} من الملفات",
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: const TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                      for (int i = 0;
+                                                          i < filesname.length;
+                                                          i++)
                                                         Text(
-                                                          "تم تحميل ${filesPath.length} من الملفات",
-                                                          textAlign:
-                                                              TextAlign.center,
+                                                          filesname[i],
                                                           style:
                                                               const TextStyle(
                                                                   fontWeight:
@@ -537,34 +547,19 @@ class _SecondServiceState extends State<SecondService> {
                                                                   color: Colors
                                                                       .black),
                                                         ),
-                                                        for (int i = 0;
-                                                            i <
-                                                                filesname
-                                                                    .length;
-                                                            i++)
-                                                          Text(
-                                                            filesname[i],
-                                                            style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .black),
-                                                          ),
-                                                        const Text(
-                                                          "إضغط هنا لتحميل المزيد",
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .underline,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Colors.black),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                      const Text(
+                                                        "إضغط هنا لتحميل المزيد",
+                                                        style: TextStyle(
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .underline,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 18,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                         ),
@@ -664,7 +659,7 @@ class _SecondServiceState extends State<SecondService> {
                                                                     "sucess_pay"]![
                                                                 language],
                                                             text2: translateText[
-                                                                    "text7"]![
+                                                                    "text7S2"]![
                                                                 language])),
                                                     (route) => false);
                                               } else {
