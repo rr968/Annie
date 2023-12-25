@@ -5,11 +5,15 @@ import 'dart:developer';
 import 'package:build/controller/cachServicesInput.dart';
 import 'package:build/controller/erroralert.dart';
 import 'package:build/controller/no_imternet.dart';
+import 'package:build/controller/provider.dart';
 import 'package:build/main.dart';
 import 'package:build/view/Auth/login.dart';
+import 'package:build/view/offers/contract.dart';
+import 'package:build/view/offers/contract2.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import '../../controller/button.dart';
 import '../../controller/constant.dart';
@@ -35,6 +39,7 @@ class _SecondServiceState extends State<SecondService> {
   bool isLoading = true;
   @override
   void initState() {
+    Provider.of<MyProvider>(context, listen: false).setContract2Accepted(false);
     getSecondServiceNatureIndex().then((nature) {
       log("nature $nature");
       if (nature != -1) {
@@ -66,6 +71,7 @@ class _SecondServiceState extends State<SecondService> {
     return Directionality(
       textDirection: language == 0 ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: isLoading
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
@@ -603,7 +609,10 @@ class _SecondServiceState extends State<SecondService> {
                                           snackbar(context,
                                               "يجب رفع المخططات الخاصة بمشروعك");
                                         } else {
-                                          /*  var response = await MyFatoorah.startPayment(
+                                          if (Provider.of<MyProvider>(context,
+                                                  listen: false)
+                                              .getContract2Accepted()) {
+                                            /*  var response = await MyFatoorah.startPayment(
                                   afterPaymentBehaviour: AfterPaymentBehaviour
                                       .AfterCallbackExecution,
                                   context: context,
@@ -621,48 +630,58 @@ class _SecondServiceState extends State<SecondService> {
                                         "rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL",
                                   ),
                                 );*/
-                                          // if (response.isSuccess) {
-                                          if (true) {
-                                            try {
-                                              var request = http.MultipartRequest(
-                                                  'POST',
-                                                  Uri.parse(
-                                                      '$baseUrl/review-construction-plans'));
-                                              request.fields.addAll({
-                                                'requestType': requestType,
-                                                'floorsCount':
-                                                    ((floorsNameList.indexOf(
-                                                                dropDownFloorValue)) +
-                                                            1)
-                                                        .toString(),
-                                              });
-                                              filesPath
-                                                  .forEach((element) async {
-                                                request.files.add(await http
-                                                        .MultipartFile
-                                                    .fromPath(
-                                                        'files[]', element));
-                                              });
+                                            // if (response.isSuccess) {
+                                            if (true) {
+                                              try {
+                                                var request = http.MultipartRequest(
+                                                    'POST',
+                                                    Uri.parse(
+                                                        '$baseUrl/review-construction-plans'));
+                                                request.fields.addAll({
+                                                  'requestType': requestType,
+                                                  'floorsCount':
+                                                      ((floorsNameList.indexOf(
+                                                                  dropDownFloorValue)) +
+                                                              1)
+                                                          .toString(),
+                                                });
+                                                filesPath
+                                                    .forEach((element) async {
+                                                  request.files.add(await http
+                                                          .MultipartFile
+                                                      .fromPath(
+                                                          'files[]', element));
+                                                });
 
-                                              request.headers.addAll(headers2);
+                                                request.headers
+                                                    .addAll(headers2);
 
-                                              http.StreamedResponse response =
-                                                  await request.send();
+                                                http.StreamedResponse response =
+                                                    await request.send();
 
-                                              if (response.statusCode == 201) {
-                                                cleanSecondServiceCache();
-                                                Navigator.pushAndRemoveUntil(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) => SuccessPage(
-                                                            text1: translateText[
-                                                                    "sucess_pay"]![
-                                                                language],
-                                                            text2: translateText[
-                                                                    "text7S2"]![
-                                                                language])),
-                                                    (route) => false);
-                                              } else {
+                                                if (response.statusCode ==
+                                                    201) {
+                                                  cleanSecondServiceCache();
+                                                  Navigator.pushAndRemoveUntil(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) => SuccessPage(
+                                                              text1: translateText[
+                                                                      "sucess_pay"]![
+                                                                  language],
+                                                              text2: translateText[
+                                                                      "text7S2"]![
+                                                                  language])),
+                                                      (route) => false);
+                                                } else {
+                                                  Navigator.pushAndRemoveUntil(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const NoInternet()),
+                                                      (route) => false);
+                                                }
+                                              } catch (_) {
                                                 Navigator.pushAndRemoveUntil(
                                                     context,
                                                     MaterialPageRoute(
@@ -670,14 +689,13 @@ class _SecondServiceState extends State<SecondService> {
                                                             const NoInternet()),
                                                     (route) => false);
                                               }
-                                            } catch (_) {
-                                              Navigator.pushAndRemoveUntil(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          const NoInternet()),
-                                                  (route) => false);
                                             }
+                                          } else {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Contract2()));
                                           }
                                         }
                                       }

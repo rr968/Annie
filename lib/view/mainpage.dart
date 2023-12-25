@@ -63,6 +63,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Scaffold(
+        backgroundColor: Colors.white,
         extendBody: true,
         bottomNavigationBar: Stack(
           children: [

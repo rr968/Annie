@@ -17,6 +17,7 @@ class _DonePageState extends State<DonePage> {
     return Directionality(
       textDirection: language == 0 ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Center(
           child: SingleChildScrollView(
             child: Column(mainAxisSize: MainAxisSize.min, children: [

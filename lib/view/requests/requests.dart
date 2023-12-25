@@ -84,6 +84,7 @@ class _RequestsState extends State<Requests> {
     return SafeArea(
       maintainBottomViewPadding: true,
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Directionality(
           textDirection: language == 0 ? TextDirection.rtl : TextDirection.ltr,
           child: Padding(

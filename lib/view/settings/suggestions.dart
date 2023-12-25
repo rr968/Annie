@@ -24,6 +24,7 @@ class _SuggestionsState extends State<Suggestions> {
         textDirection: TextDirection.rtl,
         child: SafeArea(
           child: Scaffold(
+            backgroundColor: Colors.white,
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: SingleChildScrollView(

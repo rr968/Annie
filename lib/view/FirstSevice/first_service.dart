@@ -80,6 +80,7 @@ class _FirstServiceState extends State<FirstService> {
     return Directionality(
       textDirection: language == 0 ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: isLoading
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(

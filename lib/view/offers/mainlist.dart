@@ -80,6 +80,7 @@ class _MainListOffersState extends State<MainListOffers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         maintainBottomViewPadding: true,
         child: Directionality(

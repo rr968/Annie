@@ -39,6 +39,7 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           InkWell(
@@ -107,7 +108,7 @@ class _SignUpState extends State<SignUp> {
                               alignLabelWithHint: true,
                               contentPadding: const EdgeInsets.all(10),
                               label: SizedBox(
-                                width: 70,
+                                width: 73,
                                 child: Row(
                                   children: [
                                     Text(
@@ -188,7 +189,7 @@ class _SignUpState extends State<SignUp> {
                               return InputDecorator(
                                 decoration: InputDecoration(
                                   label: SizedBox(
-                                    width: 60,
+                                    width: 66,
                                     child: Row(
                                       children: [
                                         Text(

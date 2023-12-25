@@ -46,6 +46,7 @@ class _ReqestViewState extends State<ReqestView> {
       body: Directionality(
         textDirection: language == 0 ? TextDirection.rtl : TextDirection.ltr,
         child: Scaffold(
+          backgroundColor: Colors.white,
           body: isLoading
               ? Center(
                   child: CircularProgressIndicator(color: maincolor),

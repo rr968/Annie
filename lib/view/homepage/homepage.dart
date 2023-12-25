@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Stack(

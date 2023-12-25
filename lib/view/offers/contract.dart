@@ -65,6 +65,7 @@ class _ContractState extends State<Contract> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 20, right: 10),
@@ -229,6 +230,8 @@ class _ContractState extends State<Contract> {
                                                         ? TextDirection.rtl
                                                         : TextDirection.ltr,
                                                     child: AlertDialog(
+                                                      backgroundColor:
+                                                          Colors.white,
                                                       shape:
                                                           RoundedRectangleBorder(
                                                         borderRadius:

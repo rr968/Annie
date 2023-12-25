@@ -53,6 +53,7 @@ class _ConditionsState extends State<Conditions> {
       child: Directionality(
           textDirection: TextDirection.rtl,
           child: Scaffold(
+            backgroundColor: Colors.white,
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Column(
